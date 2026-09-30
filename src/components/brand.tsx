@@ -26,36 +26,80 @@ export function Logo({ name, dark = false }: { name: string; dark?: boolean }) {
   );
 }
 
-/** Dente "3D" estilizado para o hero. */
+const TOOTH_D = "M100 22c-24-14-66-6-74 34-6 32 8 52 16 80 6 24 8 82 28 82 16 0 16-44 30-44s14 44 30 44c20 0 22-58 28-82 8-28 22-48 16-80-8-40-50-48-74-34z";
+const MOLAR_D = "M22 46C22 12 58 4 72 20c14-16 50-8 50 26 0 22-10 32-12 54-3 22-7 46-19 46-10 0-10-24-17-24s-7 24-17 24c-12 0-16-24-19-46-2-22-16-32-16-54z";
+
+/** Dente "3D" brilhante (azul-acinzentado, com luz de contorno ciano), inspirado no pôster. */
 export function BigTooth({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 200 240" className={className} aria-hidden="true">
+    <svg viewBox="0 0 200 250" className={className} aria-hidden="true">
       <defs>
-        <radialGradient id="tg" cx="35%" cy="25%" r="85%">
+        <radialGradient id="bt-g" cx="32%" cy="22%" r="95%">
           <stop offset="0" stopColor="#ffffff" />
-          <stop offset=".55" stopColor="#e7f1f4" />
-          <stop offset="1" stopColor="#a9c4cc" />
+          <stop offset=".35" stopColor="#dbe8ee" />
+          <stop offset=".75" stopColor="#8ea9b6" />
+          <stop offset="1" stopColor="#5d7c8b" />
         </radialGradient>
-        <filter id="ts" x="-20%" y="-20%" width="140%" height="150%">
-          <feDropShadow dx="0" dy="14" stdDeviation="12" floodColor="#02161b" floodOpacity=".35" />
+        <linearGradient id="bt-rim" x1="0" x2="1">
+          <stop offset=".6" stopColor="#19c2d3" stopOpacity="0" />
+          <stop offset="1" stopColor="#7cf0ff" stopOpacity=".9" />
+        </linearGradient>
+        <filter id="bt-s" x="-30%" y="-20%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="18" stdDeviation="14" floodColor="#00141a" floodOpacity=".55" />
         </filter>
       </defs>
-      <path
-        filter="url(#ts)"
-        fill="url(#tg)"
-        d="M100 22c-24-14-66-6-74 34-6 32 8 52 16 80 6 24 8 82 28 82 16 0 16-44 30-44s14 44 30 44c20 0 22-58 28-82 8-28 22-48 16-80-8-40-50-48-74-34z"
-      />
-      <path d="M62 52c10-10 26-12 38-6" stroke="#fff" strokeWidth="6" strokeLinecap="round" fill="none" opacity=".9" />
+      <path d={TOOTH_D} fill="url(#bt-g)" filter="url(#bt-s)" />
+      <path d={TOOTH_D} fill="none" stroke="url(#bt-rim)" strokeWidth="3" />
+      <path d="M56 50c12-12 32-16 48-8" stroke="#fff" strokeWidth="7" strokeLinecap="round" fill="none" opacity=".85" />
+      <ellipse cx="62" cy="98" rx="6" ry="16" fill="#fff" opacity=".35" transform="rotate(12 62 98)" />
     </svg>
   );
 }
 
-/** Anéis decorativos (como no pôster azul). */
-export function Rings({ className = "" }: { className?: string }) {
+/** Molar flutuante (branco perolado). */
+export function Molar({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 400 400" className={className} fill="none" aria-hidden="true">
-      <circle cx="200" cy="200" r="190" stroke="currentColor" strokeWidth="26" opacity=".12" />
-      <circle cx="200" cy="200" r="120" stroke="currentColor" strokeWidth="14" opacity=".10" />
+    <svg viewBox="0 0 144 160" className={className} aria-hidden="true">
+      <defs>
+        <radialGradient id="mo-g" cx="35%" cy="20%" r="90%">
+          <stop offset="0" stopColor="#fff" />
+          <stop offset=".6" stopColor="#eef4f7" />
+          <stop offset="1" stopColor="#b7c9d2" />
+        </radialGradient>
+        <filter id="mo-s" x="-30%" y="-20%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="12" stdDeviation="10" floodColor="#00141a" floodOpacity=".5" />
+        </filter>
+      </defs>
+      <path d={MOLAR_D} fill="url(#mo-g)" filter="url(#mo-s)" />
+      <path d="M40 40c10-10 22-12 32-6" stroke="#fff" strokeWidth="6" strokeLinecap="round" fill="none" opacity=".9" />
+    </svg>
+  );
+}
+
+/** Círculo de vidro com ícone (dente, coração, calendário), como nos pôsteres. */
+export function GlassIcon({ kind, className = "" }: { kind: "tooth" | "heart" | "calendar"; className?: string }) {
+  return (
+    <span className={`glass grid place-items-center rounded-full text-white ${className}`}>
+      {kind === "tooth" && <ToothMark className="h-1/2 w-1/2" />}
+      {kind === "heart" && (
+        <svg viewBox="0 0 24 24" className="h-1/2 w-1/2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.500-7 10-7 10z" />
+        </svg>
+      )}
+      {kind === "calendar" && (
+        <svg viewBox="0 0 24 24" className="h-1/2 w-1/2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+          <rect x="4" y="5" width="16" height="15" rx="3" /><path d="M8 3v4M16 3v4M4 10h16" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
+/** Linha fina em arco ligando elementos flutuantes. */
+export function Orbit({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 300 300" className={className} fill="none" aria-hidden="true">
+      <path d="M20 280C10 120 120 20 280 20" stroke="rgba(255,255,255,.35)" strokeWidth="1.2" />
     </svg>
   );
 }
@@ -64,12 +108,12 @@ export function Stepper({ step }: { step: number }) {
   const steps = ["Procedimento", "Profissional", "Data", "Horário", "Seus dados", "Resumo"];
   return (
     <nav aria-label="Etapas do agendamento" className="mb-6">
-      <p className="mb-2 text-xs font-bold uppercase tracking-wider text-muted">
+      <p className="mb-2 text-xs font-bold uppercase tracking-wider text-white/70">
         Passo {step} de {steps.length} · {steps[step - 1]}
       </p>
       <ol className="flex gap-1.5" aria-hidden="true">
         {steps.map((s, i) => (
-          <li key={s} className={`h-1.5 flex-1 rounded-full ${i < step ? "bg-royal" : "bg-line"}`} />
+          <li key={s} className={`h-1.5 flex-1 rounded-full ${i < step ? "bg-cyan" : "bg-white/20"}`} />
         ))}
       </ol>
     </nav>

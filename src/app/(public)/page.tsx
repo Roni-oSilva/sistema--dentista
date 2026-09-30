@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSettings, publicClinicInfo } from "@/services/settings";
-import { Arrow, BigTooth, Rings, ToothMark } from "@/components/brand";
+import { Arrow, BigTooth, GlassIcon, Molar, Orbit } from "@/components/brand";
 
 export default async function Home() {
   const c = publicClinicInfo(await getSettings(createSupabaseAdminClient()));
@@ -13,29 +13,34 @@ export default async function Home() {
   return (
     <>
       <section className="hero relative overflow-hidden text-white">
-        <Rings className="pointer-events-none absolute -right-24 -top-24 h-[28rem] w-[28rem] text-white" />
-        <div className="mx-auto grid max-w-5xl items-center gap-8 px-4 py-14 sm:py-20 md:grid-cols-[1.2fr_1fr]">
+        <div className="mx-auto grid max-w-5xl items-center gap-2 px-4 pb-14 pt-10 md:min-h-[34rem] md:grid-cols-[1.15fr_1fr] md:pt-14">
+          {/* composição de dentes (mobile: acima do título) */}
+          <div className="relative order-first mx-auto h-64 w-full max-w-sm md:order-last md:h-[26rem]">
+            <Orbit className="absolute inset-0 h-full w-full" />
+            <BigTooth className="absolute bottom-0 left-2 h-[88%] drop-shadow-2xl" />
+            <Molar className="absolute right-0 top-[34%] h-[38%] rotate-[14deg]" />
+            <GlassIcon kind="tooth" className="absolute left-0 top-2 h-16 w-16 md:h-20 md:w-20" />
+            <GlassIcon kind="heart" className="absolute right-6 top-0 h-14 w-14 md:h-[4.5rem] md:w-[4.5rem]" />
+          </div>
+
           <div className="relative z-10">
-            <p className="chip mb-5"><ToothMark className="h-3.5 w-3.5" /> {c.nome}</p>
-            <h1 className="display text-[2.6rem] sm:text-6xl">
-              Cuidamos do <span className="text-[#7be0bd]">seu sorriso</span>
+            <h1 className="display text-[2.4rem] sm:text-6xl">
+              Cuidamos do<br />
+              <span className="display-grad">seu sorriso</span>
             </h1>
             <p className="display-soft mt-2 text-3xl sm:text-4xl">agende online!</p>
-            <p className="mt-5 max-w-md text-base text-white/80">
+            <p className="mt-5 max-w-md text-base text-white/75">
               Escolha o procedimento, o profissional e um horário livre. Leva menos de um minuto, sem criar conta.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link href="/agendamento" className="btn btn-light btn-lg">
-                Agendar agora <Arrow />
-              </Link>
-              {c.horario_funcionamento && <span className="chip">{c.horario_funcionamento}</span>}
+              <span className="pill-white inline-flex items-center gap-2 px-5 py-3 text-base font-bold">
+                {c.horario_funcionamento || "Agendamento online grátis"} <span aria-hidden="true">🔥</span>
+              </span>
             </div>
-          </div>
-          <div className="relative mx-auto hidden h-72 w-72 md:block">
-            <BigTooth className="relative z-10 h-full w-full" />
-            <span className="glass absolute -left-4 top-6 grid h-16 w-16 place-items-center rounded-full text-xs font-bold">Limpa</span>
-            <span className="glass absolute -right-2 top-24 grid h-16 w-16 place-items-center rounded-full text-xs font-bold">Forte</span>
-            <span className="glass absolute bottom-4 left-2 grid h-16 w-16 place-items-center rounded-full text-xs font-bold">Saudável</span>
+            <Link href="/agendamento" className="cta-blue mt-4 inline-flex items-center gap-3 py-1.5 pl-2 pr-5 text-sm font-bold">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-orange text-white"><Arrow /></span>
+              Agendar minha consulta
+            </Link>
           </div>
         </div>
       </section>

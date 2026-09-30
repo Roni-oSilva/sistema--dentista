@@ -45,7 +45,7 @@ export default async function ResumoPage({ searchParams }: { searchParams: Searc
         <SubmitButton>Confirmar agendamento</SubmitButton>
       </ActionForm>
       <p className="mt-4 text-sm">
-        <Link href={stepUrl("dados", params)} className="font-semibold text-royal underline">
+        <Link href={stepUrl("dados", params)} className="back">
           Corrigir dados
         </Link>
       </p>

@@ -28,8 +28,8 @@ export default async function DadosPage({ searchParams }: { searchParams: Search
     <div className="mx-auto max-w-xl px-4 py-8">
       <Stepper step={5} />
       <h1 className="h1">Seus dados</h1>
-      <p className="mb-4 text-sm text-muted">
-        <b className="text-ink">{target.procedure.nome}</b> · {target.professional.nome} · {formatBR(params.data)} às {params.horario}
+      <p className="mb-4 text-sm lead">
+        <b className="text-white">{target.procedure.nome}</b> · {target.professional.nome} · {formatBR(params.data)} às {params.horario}
       </p>
       <div className="card">
         <ActionForm action={submitPatientData}>
@@ -60,7 +60,7 @@ export default async function DadosPage({ searchParams }: { searchParams: Search
         </ActionForm>
       </div>
       <p className="mt-4 text-sm">
-        <Link href={stepUrl("horario", { ...params, horario: undefined })} className="font-semibold text-royal underline">
+        <Link href={stepUrl("horario", { ...params, horario: undefined })} className="back">
           Voltar
         </Link>
       </p>

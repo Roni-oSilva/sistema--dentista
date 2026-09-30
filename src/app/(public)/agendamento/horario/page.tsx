@@ -35,8 +35,8 @@ export default async function HorarioPage({ searchParams }: { searchParams: Sear
       <Stepper step={4} />
       <h1 className="h1">Escolha o horário</h1>
       <Flash sp={sp} />
-      <p className="mb-4 text-sm text-muted">
-        <b className="text-ink">{target.procedure.nome}</b> · {target.professional.nome} · {WEEKDAYS_PT[weekdayOf(params.data)]}, {formatBR(params.data)}
+      <p className="mb-4 text-sm lead">
+        <b className="text-white">{target.procedure.nome}</b> · {target.professional.nome} · {WEEKDAYS_PT[weekdayOf(params.data)]}, {formatBR(params.data)}
       </p>
       {times.length === 0 && <p className="alert-info">Não há horários livres nesta data. Escolha outra data.</p>}
       <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
@@ -49,7 +49,7 @@ export default async function HorarioPage({ searchParams }: { searchParams: Sear
         ))}
       </ul>
       <p className="mt-4 text-sm">
-        <Link href={stepUrl("data", { ...params, data: undefined })} className="font-semibold text-royal underline">
+        <Link href={stepUrl("data", { ...params, data: undefined })} className="back">
           Escolher outra data
         </Link>
       </p>

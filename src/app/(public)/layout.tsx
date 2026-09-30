@@ -8,8 +8,8 @@ export const dynamic = "force-dynamic";
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const clinic = publicClinicInfo(await getSettings(createSupabaseAdminClient()));
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="bg-deep text-white">
+    <div className="pub flex min-h-dvh flex-col">
+      <header className="border-b border-white/10 bg-black/20 text-white backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <Link href="/" aria-label={`${clinic.nome} — início`}>
             <Logo name={clinic.nome} dark />
@@ -20,8 +20,8 @@ export default async function PublicLayout({ children }: { children: React.React
         </div>
       </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t border-line bg-white">
-        <div className="mx-auto flex max-w-5xl flex-wrap justify-between gap-2 px-4 py-4 text-xs text-muted">
+      <footer className="border-t border-white/10 bg-black/25">
+        <div className="mx-auto flex max-w-5xl flex-wrap justify-between gap-2 px-4 py-4 text-xs text-white/60">
           <span>{clinic.nome}</span>
           {clinic.endereco && <span>{clinic.endereco}</span>}
           {clinic.telefone && <span>{clinic.telefone}</span>}

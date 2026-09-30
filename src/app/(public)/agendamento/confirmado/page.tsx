@@ -46,7 +46,7 @@ export default async function ConfirmadoPage() {
         <p className="text-sm">Guarde estes dados. Em caso de dúvida, entre em contato com a clínica.</p>
       )}
       <p className="mt-4 text-sm">
-        <Link href="/" className="font-semibold text-royal underline">
+        <Link href="/" className="back">
           Voltar ao início
         </Link>
       </p>

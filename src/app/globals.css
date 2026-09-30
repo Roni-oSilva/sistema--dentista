@@ -1,13 +1,13 @@
 @import "tailwindcss";
-@import "@fontsource-variable/inter-tight";
+@import "@fontsource-variable/plus-jakarta-sans";
 @import "@fontsource-variable/inter";
 
 /*
- * Identidade visual (referências: verde "Care Center", azul-petróleo "blaze", azul royal "Dentista").
- * Títulos: grotesca bold de tracking apertado (Inter Tight 800), como no pôster do meio.
+ * Identidade visual: inspirada no pôster azul-petróleo "blaze" (cinematográfico, ciano/azul, dentes 3D,
+ * círculos de vidro). Títulos em sans geométrica bold (Plus Jakarta Sans), caixa-alta com tracking curto.
  */
 @theme {
-  --font-display: "Inter Tight Variable", "Inter Tight", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", system-ui, sans-serif;
   --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
 
   --color-ink: #06222b;        /* texto / fundos escuros */
@@ -15,6 +15,8 @@
   --color-teal: #0b6b7a;       /* petróleo médio */
   --color-royal: #0b47c4;      /* azul royal: ação principal */
   --color-royal-dark: #07328f;
+  --color-cyan: #19c2d3;       /* brilho ciano do pôster */
+  --color-orange: #f59e0b;     /* pontos de ação/calor (como o ícone laranja) */
   --color-mint: #2fa57f;       /* verde "saúde": disponível / sucesso */
   --color-mist: #eef5f8;       /* fundo de página */
   --color-line: #d4e2ea;
@@ -30,9 +32,10 @@
 
 @layer components {
   /* ---------- tipografia ---------- */
-  .display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.035em; line-height: 0.98; text-transform: uppercase; }
-  .display-soft { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.03em; }
-  .h1 { @apply mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl; font-family: var(--font-display); letter-spacing: -0.03em; }
+  .display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; text-transform: uppercase; }
+  .display-grad { background: linear-gradient(180deg, #ffffff 0%, #b9d2ff 35%, #4f7dff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .display-soft { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.02em; }
+  .h1 { @apply mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl; font-family: var(--font-display); letter-spacing: -0.025em; }
   .h2 { @apply mb-3 text-lg font-bold; font-family: var(--font-display); letter-spacing: -0.02em; }
 
   /* ---------- botões ---------- */
@@ -63,11 +66,24 @@
   /* ---------- fluxo público ---------- */
   .opt { @apply flex items-center justify-between gap-3 rounded-2xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(6,34,43,.04)] transition hover:-translate-y-0.5 hover:border-royal hover:shadow-md; }
   .opt-title { font-family: var(--font-display); @apply text-lg font-bold tracking-tight; }
-  .slot { @apply flex items-center justify-center rounded-full border border-line bg-white px-3 py-2.5 text-sm font-semibold transition hover:border-royal hover:bg-royal hover:text-white; }
+  .slot { display: flex; align-items: center; justify-content: center; border-radius: 9999px; padding: .65rem .75rem; font-size: .875rem; font-weight: 700; color: var(--color-ink);
+      background: linear-gradient(180deg, #fff, #dbe9f2); box-shadow: 0 4px 14px rgba(0,0,0,.22), inset 0 1px 0 #fff; transition: transform .15s, background .15s, color .15s; }
+  .slot:hover { transform: translateY(-2px); background: var(--color-royal); color: #fff; }
+  .pub :focus-visible { outline-color: var(--color-cyan); }
   .chip { @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur; }
   .glass { background: linear-gradient(145deg, rgba(255,255,255,.28), rgba(255,255,255,.08)); border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); }
+  /* fundo "consultório azul-petróleo": brilho ciano no teto, vinheta escura embaixo */
   .hero { background:
-      radial-gradient(60% 80% at 85% 10%, rgba(47,165,127,.35), transparent 60%),
-      radial-gradient(70% 90% at 0% 100%, rgba(11,71,196,.45), transparent 60%),
-      linear-gradient(160deg, var(--color-deep), #0a5563 70%, #0b6b7a); }
+      radial-gradient(90% 55% at 50% -10%, rgba(25,194,211,.55), transparent 65%),
+      radial-gradient(45% 50% at 100% 45%, rgba(25,194,211,.22), transparent 70%),
+      radial-gradient(60% 50% at 0% 70%, rgba(11,71,196,.35), transparent 70%),
+      linear-gradient(180deg, #0a6f7d 0%, #06414d 38%, #032a33 75%, #021a20 100%); }
+  .pub { color: #fff; background-color: #021a20; background-image:
+      radial-gradient(80% 420px at 50% -40px, rgba(25,194,211,.35), transparent 70%),
+      linear-gradient(180deg, #06414d 0, #032a33 520px, #021a20 900px); background-repeat: no-repeat; }
+  .pub .card, .pub .opt, .pub .slot, .pub .input { color: var(--color-ink); }
+  .pub .lead { color: rgba(255,255,255,.72); }
+  .pub .back { @apply font-semibold text-cyan underline underline-offset-2; }
+  .pill-white { background: linear-gradient(180deg, #fff, #dbe9f2); color: var(--color-ink); border-radius: 9999px; box-shadow: 0 6px 20px rgba(0,0,0,.25), inset 0 1px 0 #fff; }
+  .cta-blue { background: linear-gradient(90deg, #0b47c4, #1c5bff); color: #fff; border-radius: 9999px; box-shadow: 0 6px 20px rgba(11,71,196,.45); }
 }

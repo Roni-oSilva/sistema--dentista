@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ActionForm, Field, SubmitButton } from "@/components/ActionForm";
-import { BigTooth, Logo, Rings } from "@/components/brand";
+import { BigTooth, GlassIcon, Logo, Molar } from "@/components/brand";
 import { getCurrentStaff } from "@/lib/auth/session";
 import { loginAction } from "./actions";
 import { Flash, first, type SearchParams } from "@/components/ui";
@@ -14,11 +14,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
   return (
     <main className="grid min-h-dvh md:grid-cols-2">
       <section className="hero relative hidden overflow-hidden p-10 text-white md:flex md:flex-col md:justify-between">
-        <Rings className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 text-white" />
         <Logo name="Painel da clínica" dark />
         <div className="relative z-10">
-          <BigTooth className="mb-6 h-44 w-44" />
-          <h1 className="display text-5xl">Agenda sob controle</h1>
+          <div className="relative mb-6 h-56">
+            <BigTooth className="absolute bottom-0 left-0 h-full" />
+            <Molar className="absolute bottom-6 left-40 h-28 rotate-[14deg]" />
+            <GlassIcon kind="calendar" className="absolute left-52 top-0 h-16 w-16" />
+          </div>
+          <h1 className="display text-5xl">Agenda <span className="display-grad">sob controle</span></h1>
           <p className="display-soft mt-2 text-2xl">simples, rápida, segura.</p>
         </div>
       </section>

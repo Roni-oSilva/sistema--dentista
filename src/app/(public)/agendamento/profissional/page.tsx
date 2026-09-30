@@ -23,7 +23,7 @@ export default async function ProfissionalPage({ searchParams }: { searchParams:
     <div className="mx-auto max-w-3xl px-4 py-8">
       <Stepper step={2} />
       <h1 className="h1">Com qual profissional?</h1>
-      <p className="mb-4 text-sm text-muted">Procedimento: <b className="text-ink">{proc.nome}</b></p>
+      <p className="mb-4 text-sm lead">Procedimento: <b className="text-white">{proc.nome}</b></p>
       {(pros ?? []).length === 0 && <p className="alert-info">Nenhum profissional disponível para este procedimento.</p>}
       <ul className="space-y-2">
         {(pros ?? []).map((p) => (
@@ -36,7 +36,7 @@ export default async function ProfissionalPage({ searchParams }: { searchParams:
         ))}
       </ul>
       <p className="mt-5 text-sm">
-        <Link href="/agendamento/procedimento" className="font-semibold text-royal underline">
+        <Link href="/agendamento/procedimento" className="back">
           Voltar
         </Link>
       </p>
