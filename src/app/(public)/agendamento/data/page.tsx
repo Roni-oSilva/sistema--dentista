@@ -39,7 +39,7 @@ export default async function DataPage({ searchParams }: { searchParams: SearchP
         <b className="text-white">{target.procedure.nome}</b> · {target.professional.nome}
       </p>
       {dates.length === 0 && <p className="alert-info">Não há datas com horários livres nos próximos dias.</p>}
-      <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+      <ul className="stagger grid grid-cols-2 gap-2 sm:grid-cols-3">
         {dates.map((d) => (
           <li key={d}>
             <Link href={stepUrl("horario", { ...params, data: d, horario: undefined })} className="slot">

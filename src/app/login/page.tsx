@@ -17,16 +17,16 @@ export default async function LoginPage({ searchParams }: { searchParams: Search
         <Logo name="Painel da clínica" dark />
         <div className="relative z-10">
           <div className="relative mb-6 h-56">
-            <BigTooth className="absolute bottom-0 left-0 h-full" />
-            <Molar className="absolute bottom-6 left-40 h-28 rotate-[14deg]" />
-            <GlassIcon kind="calendar" className="absolute left-52 top-0 h-16 w-16" />
+            <BigTooth className="float-a anim-pop d2 absolute bottom-0 left-0 h-full" />
+            <Molar className="float-b anim-pop d4 absolute bottom-6 left-40 h-28 rotate-[14deg]" />
+            <GlassIcon kind="calendar" className="drift anim-pop d5 absolute left-52 top-0 h-16 w-16" />
           </div>
-          <h1 className="display text-5xl">Agenda <span className="display-grad">sob controle</span></h1>
+          <h1 className="display anim-rise d3 text-5xl">Agenda <span className="display-grad">sob controle</span></h1>
           <p className="display-soft mt-2 text-2xl">simples, rápida, segura.</p>
         </div>
       </section>
       <section className="grid place-items-center p-5">
-        <div className="w-full max-w-sm">
+        <div className="anim-rise d2 w-full max-w-sm">
           <h2 className="h1">Entrar</h2>
           <Flash sp={sp} />
           <div className="card">

@@ -87,3 +87,58 @@
   .pill-white { background: linear-gradient(180deg, #fff, #dbe9f2); color: var(--color-ink); border-radius: 9999px; box-shadow: 0 6px 20px rgba(0,0,0,.25), inset 0 1px 0 #fff; }
   .cta-blue { background: linear-gradient(90deg, #0b47c4, #1c5bff); color: #fff; border-radius: 9999px; box-shadow: 0 6px 20px rgba(11,71,196,.45); }
 }
+
+/* =====================================================================
+ * MOVIMENTO — só CSS (transform/opacity): leve e sem JS.
+ * Desliga tudo para quem pede "reduzir movimento".
+ * ===================================================================== */
+@keyframes rise   { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+@keyframes fade   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop    { from { opacity: 0; scale: .92; } to { opacity: 1; scale: 1; } }
+@keyframes float-a { 0%,100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+@keyframes float-b { 0%,100% { translate: 0 0; } 50% { translate: 0 10px; } }
+@keyframes drift   { 0%,100% { translate: 0 0; } 33% { translate: 5px -8px; } 66% { translate: -5px 4px; } }
+@keyframes draw    { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes grow    { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes glow    { 0% { box-shadow: 0 0 0 0 rgba(245,158,11,.55); } 70%,100% { box-shadow: 0 0 0 14px rgba(245,158,11,0); } }
+@keyframes spin    { to { rotate: 360deg; } }
+@keyframes sweep   { from { translate: -120% 0; } to { translate: 220% 0; } }
+
+@layer utilities {
+  .anim-rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) backwards; }
+  .anim-pop  { animation: pop .6s cubic-bezier(.2,.8,.2,1) backwards; }
+  .page-in   { animation: rise .35s cubic-bezier(.2,.7,.2,1) backwards; }
+  .float-a { animation: float-a 6s ease-in-out infinite; }
+  .float-b { animation: float-b 7.5s ease-in-out infinite; }
+  .drift   { animation: drift 9s ease-in-out infinite; }
+  .draw    { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.8s .4s ease-out forwards; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .2s; } .d3 { animation-delay: .35s; }
+  .d4 { animation-delay: .5s; }  .d5 { animation-delay: .65s; } .d6 { animation-delay: .8s; }
+}
+
+/* listas que entram em cascata (horários, cartões, linhas de tabela) */
+.stagger > * { animation: rise .45s cubic-bezier(.2,.7,.2,1) backwards; animation-delay: calc(min(var(--i, 0), 14) * 45ms); }
+.stagger > :nth-child(1){--i:0}.stagger > :nth-child(2){--i:1}.stagger > :nth-child(3){--i:2}.stagger > :nth-child(4){--i:3}
+.stagger > :nth-child(5){--i:4}.stagger > :nth-child(6){--i:5}.stagger > :nth-child(7){--i:6}.stagger > :nth-child(8){--i:7}
+.stagger > :nth-child(9){--i:8}.stagger > :nth-child(10){--i:9}.stagger > :nth-child(11){--i:10}.stagger > :nth-child(12){--i:11}
+.stagger > :nth-child(n+13){--i:12}
+.tbl tbody tr { animation: fade .4s ease both; }
+.tbl tbody tr:nth-child(2){animation-delay:.04s}.tbl tbody tr:nth-child(3){animation-delay:.08s}.tbl tbody tr:nth-child(4){animation-delay:.12s}
+.tbl tbody tr:nth-child(5){animation-delay:.16s}.tbl tbody tr:nth-child(n+6){animation-delay:.2s}
+
+.alert-error, .alert-ok, .alert-info { animation: pop .35s cubic-bezier(.2,.8,.2,1) both; }
+.step-on { transform-origin: left; animation: grow .5s cubic-bezier(.2,.7,.2,1) both; }
+.cta-pulse { animation: glow 2.2s ease-out infinite; }
+.cta-arrow { transition: translate .2s; }
+.group:hover .cta-arrow, .opt:hover .cta-arrow { translate: 4px 0; }
+.spinner { width: 1em; height: 1em; border-radius: 9999px; border: 2px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite; }
+.shine { position: relative; overflow: hidden; }
+.shine::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 40%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); animation: sweep 3.6s 1.2s ease-in-out infinite; }
+.btn, .cta-blue, .pill-white { transition: transform .15s, background-color .15s, box-shadow .15s; }
+.cta-blue:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(11,71,196,.6); }
+.cta-blue:active { transform: scale(.98); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .draw { stroke-dashoffset: 0 !important; }
+}

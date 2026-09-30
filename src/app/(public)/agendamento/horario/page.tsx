@@ -39,7 +39,7 @@ export default async function HorarioPage({ searchParams }: { searchParams: Sear
         <b className="text-white">{target.procedure.nome}</b> · {target.professional.nome} · {WEEKDAYS_PT[weekdayOf(params.data)]}, {formatBR(params.data)}
       </p>
       {times.length === 0 && <p className="alert-info">Não há horários livres nesta data. Escolha outra data.</p>}
-      <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+      <ul className="stagger grid grid-cols-3 gap-2 sm:grid-cols-4">
         {times.map((t) => (
           <li key={t}>
             <Link href={stepUrl("dados", { ...params, horario: t })} className="slot">

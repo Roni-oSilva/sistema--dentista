@@ -99,7 +99,7 @@ export function GlassIcon({ kind, className = "" }: { kind: "tooth" | "heart" | 
 export function Orbit({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 300 300" className={className} fill="none" aria-hidden="true">
-      <path d="M20 280C10 120 120 20 280 20" stroke="rgba(255,255,255,.35)" strokeWidth="1.2" />
+      <path className="draw" pathLength={1} d="M20 280C10 120 120 20 280 20" stroke="rgba(255,255,255,.4)" strokeWidth="1.4" />
     </svg>
   );
 }
@@ -113,7 +113,7 @@ export function Stepper({ step }: { step: number }) {
       </p>
       <ol className="flex gap-1.5" aria-hidden="true">
         {steps.map((s, i) => (
-          <li key={s} className={`h-1.5 flex-1 rounded-full ${i < step ? "bg-cyan" : "bg-white/20"}`} />
+          <li key={s} className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/20">{i < step && <span className="step-on absolute inset-0 rounded-full bg-cyan" style={{ animationDelay: `${i * 70}ms` }} />}</li>
         ))}
       </ol>
     </nav>
@@ -122,7 +122,7 @@ export function Stepper({ step }: { step: number }) {
 
 export function Arrow() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-royal" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="cta-arrow h-5 w-5 shrink-0 text-royal" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
   );

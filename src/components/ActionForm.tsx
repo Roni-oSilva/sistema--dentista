@@ -21,7 +21,7 @@ export function SubmitButton({ children, className = "btn", confirm }: { childre
         if (confirm && !window.confirm(confirm)) e.preventDefault();
       }}
     >
-      {pending ? "Aguarde…" : children}
+      {pending ? (<><span className="spinner" aria-hidden="true" /> Aguarde…</>) : children}
     </button>
   );
 }

@@ -19,7 +19,7 @@ export default async function ProcedimentoPage() {
       <Stepper step={1} />
       <h1 className="h1">Qual procedimento você precisa?</h1>
       {(procs ?? []).length === 0 && <p className="alert-info">Nenhum procedimento disponível no momento.</p>}
-      <ul className="space-y-2">
+      <ul className="stagger space-y-2">
         {(procs ?? []).map((p) => (
           <li key={p.id}>
             <Link href={stepUrl("profissional", { procedimento: p.id })} className="opt">

@@ -25,7 +25,7 @@ export default async function ProfissionalPage({ searchParams }: { searchParams:
       <h1 className="h1">Com qual profissional?</h1>
       <p className="mb-4 text-sm lead">Procedimento: <b className="text-white">{proc.nome}</b></p>
       {(pros ?? []).length === 0 && <p className="alert-info">Nenhum profissional disponível para este procedimento.</p>}
-      <ul className="space-y-2">
+      <ul className="stagger space-y-2">
         {(pros ?? []).map((p) => (
           <li key={p.id}>
             <Link href={stepUrl("data", { procedimento: proc.id, profissional: p.id })} className="opt">
