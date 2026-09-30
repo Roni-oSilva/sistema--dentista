@@ -178,21 +178,17 @@ Deploy contínuo: cada push na branch de produção publica; PRs geram *Preview 
 ## 10. Testes
 
 ```bash
-npm test      # 57 testes unitários (+ integração, se TEST_DATABASE_URL etc. estiverem definidos)
+npm test      # testes unitários (regras de agenda, datas/fuso, Excel, permissões, validação, login/permissão)
 ```
 
-| O que é coberto | Onde |
-|---|---|
-| Motor de disponibilidade (regras, intervalos, duração, bloqueios, exceções, antecedência) | `tests/engine.test.ts`, `tests/overrides.test.ts` |
-| Datas/fuso (07/10 nunca vira 06/10), horários | `tests/datetime.test.ts` |
-| Excel: importação válida/inválida (linha/coluna/valor/motivo), exportação e ida-e-volta, injeção de fórmula | `tests/excel.test.ts` |
-| Permissões (matriz), guardas de login/perfil/permissão, open-redirect, CSRF (origem), mensagens assinadas, erros seguros | `tests/permissions.test.ts`, `tests/auth.test.ts`, `tests/misc.test.ts` |
-| **Banco real**: migrations, RLS (anon / sem perfil / secretaria / admin), constraint anti-conflito, **20 reservas simultâneas → 1 vence**, sobreposição por duração, cancelar libera, remarcação atômica, planilha transacional (tudo-ou-nada), rate limit | `tests/db.integration.test.ts` |
-| **Serviços + RLS via HTTP**: disponibilidade com dados reais, feriado/congresso, reservas concorrentes, remarcação, importação/exportação ponta a ponta | `tests/api.integration.test.ts` |
-| **Navegador** (login, permissões, fluxo do paciente, **2 navegadores disputando o mesmo horário**, painel, Excel) | `tests/e2e/smoke.mjs` |
+Os testes de **banco real** (`tests/db.integration.test.ts`: migrations, RLS, constraint anti-conflito, 20 reservas simultâneas → 1 vence, remarcação e planilha transacionais) rodam quando `TEST_DATABASE_URL` aponta para um Postgres **descartável** (o teste cria e apaga um banco próprio; nunca aponte para produção):
 
-Como rodar as camadas de integração/E2E (Postgres descartável + PostgREST + Chromium): veja [`tests/e2e/README.md`](tests/e2e/README.md).
-Sem infraestrutura, os testes de integração são simplesmente ignorados (`skipped`).
+```bash
+docker run -d --name pgtest -e POSTGRES_HOST_AUTH_METHOD=trust -p 54329:5432 postgres:16
+TEST_DATABASE_URL=postgres://postgres@localhost:54329/postgres npm test
+```
+
+Sem essa variável, eles são simplesmente ignorados. O CI (`.github/workflows/ci.yml`) roda tipos, lint, testes, build e os testes de banco.
 
 ## 11. Segurança
 
@@ -232,13 +228,13 @@ src/
   proxy.ts                sessão + proteção de /admin
 supabase/                 migrations versionadas, seed (dev), config.toml
 scripts/create-admin.ts   cria o primeiro ADMIN
-tests/                    unitários, integração e E2E
+tests/                    unitários e testes de banco
 ```
 
 ## 13. Limitações conhecidas e próximos passos
 
 - **Interface** propositalmente simples → etapa 2 (UI/UX, calendário visual, animações, etc.).
-- **Verificado neste repositório**: testes unitários, banco real (Postgres 16), serviços via PostgREST e um roteiro de navegador completo contra um **Supabase falso** (auth simulada). **Não** foi testado contra um projeto Supabase real na nuvem: no primeiro deploy, valide login, e-mail de recuperação de senha (SMTP/redirects) e `create-admin`.
+- **Verificado**: testes unitários e de banco real (Postgres 16), além de testes manuais de navegador. **Não** foi testado contra um projeto Supabase real na nuvem: no primeiro deploy, valide login, e-mail de recuperação de senha (SMTP/redirects) e `create-admin`.
 - O rate limit usa `x-forwarded-for` (confiável na Vercel; em outra hospedagem, configure o proxy para sobrescrevê-lo).
 - Não há envio automático de WhatsApp/e-mail de lembrete: o WhatsApp é por link. A interface `NotificationProvider` já prepara a integração com a WhatsApp Business API.
 - Um paciente é identificado por telefone + nome; o fluxo público **nunca altera** cadastro existente (evita adulteração), só o painel edita.
