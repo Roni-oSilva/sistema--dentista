@@ -9,7 +9,7 @@ import { getSettings } from "@/services/settings";
 import { availableTimes } from "@/services/booking";
 import { formatBR, isValidYmd, normalizeTime } from "@/lib/datetime";
 import { formatPhone, uuid } from "@/validators/common";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { buildPatientConfirmation, buildWhatsAppLink } from "@/lib/whatsapp";
 import { changeStatusAction, rescheduleAction, updateNoteAction } from "../actions";
 
 export const metadata = { title: "Agendamento" };
@@ -42,7 +42,17 @@ export default async function AgendamentoDetalhe({ params, searchParams }: { par
     });
   }
   const waLink = a.paciente
-    ? buildWhatsAppLink(a.paciente.telefone, `Olá, ${a.paciente.nome}! Sobre sua consulta de ${a.procedimento?.nome} em ${formatBR(a.data)} às ${normalizeTime(a.hora_inicio)}.`)
+    ? buildWhatsAppLink(
+        a.paciente.telefone,
+        buildPatientConfirmation({
+          clinica: (await getSettings(staff.db)).clinica.nome,
+          paciente: a.paciente.nome,
+          procedimento: a.procedimento?.nome ?? "",
+          profissional: a.profissional?.nome ?? "",
+          data: a.data,
+          hora: normalizeTime(a.hora_inicio),
+        }),
+      )
     : null;
 
   return (
@@ -51,7 +61,7 @@ export default async function AgendamentoDetalhe({ params, searchParams }: { par
       <Flash sp={sp} />
       <div className="card text-sm">
         <p><b>Paciente:</b> <Link className="underline" href={`/admin/pacientes/${a.paciente_id}`}>{a.paciente?.nome}</Link> — {a.paciente && formatPhone(a.paciente.telefone)}{" "}
-          {waLink && <a className="underline" href={waLink} target="_blank" rel="noopener noreferrer">(WhatsApp)</a>}</p>
+          {waLink && <a className="btn btn-sm" href={waLink} target="_blank" rel="noopener noreferrer">Enviar confirmação no WhatsApp</a>}</p>
         <p><b>Procedimento:</b> {a.procedimento?.nome} ({a.procedimento?.duracao_minutos} min)</p>
         <p><b>Profissional:</b> {a.profissional?.nome}</p>
         <p><b>Data:</b> {formatBR(a.data)} <b>Horário:</b> {normalizeTime(a.hora_inicio)}–{normalizeTime(a.hora_fim)}</p>

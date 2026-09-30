@@ -26,6 +26,25 @@ export function buildNewBookingMessage(d: BookingMessageData): string {
   ].join("\n");
 }
 
+export interface PatientMessageData {
+  clinica: string;
+  paciente: string;
+  procedimento: string;
+  profissional: string;
+  data: string; // YYYY-MM-DD
+  hora: string; // HH:MM
+}
+
+/** Mensagem da clínica para o paciente confirmando o agendamento. */
+export function buildPatientConfirmation(d: PatientMessageData): string {
+  return `Olá, ${d.paciente}! Sua consulta na ${d.clinica} está agendada: ${d.procedimento} com ${d.profissional} em ${formatBR(d.data)} às ${d.hora}. Qualquer imprevisto, avise por aqui.`;
+}
+
+/** Lembrete (normalmente enviado na véspera). */
+export function buildReminder(d: PatientMessageData): string {
+  return `Olá, ${d.paciente}! Lembrando da sua consulta amanhã (${formatBR(d.data)}) às ${d.hora} — ${d.procedimento} com ${d.profissional}, na ${d.clinica}. Responda CONFIRMO para confirmar, ou nos avise se precisar remarcar.`;
+}
+
 /** Número para wa.me: somente dígitos com DDI 55 (Brasil). Retorna null se inválido. */
 export function toWaNumber(phone: string): string | null {
   const digits = phone.replace(/\D/g, "");

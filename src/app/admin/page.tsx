@@ -3,7 +3,8 @@ import { requirePagePermission } from "@/lib/auth/session";
 import { getSettings } from "@/services/settings";
 import { listAppointments } from "@/services/appointments";
 import { AppointmentTable } from "@/components/AppointmentTable";
-import { formatBR, nowInZone } from "@/lib/datetime";
+import { addDays, formatBR, nowInZone, normalizeTime } from "@/lib/datetime";
+import { buildReminder, buildWhatsAppLink } from "@/lib/whatsapp";
 import { hasPermission } from "@/lib/auth/permissions";
 
 export const metadata = { title: "Dashboard" };
@@ -13,11 +14,14 @@ export default async function Dashboard() {
   const settings = await getSettings(staff.db);
   const { date: today } = nowInZone(settings.agenda.timezone);
 
-  const [todayRows, upcoming, pendingFuture] = await Promise.all([
+  const tomorrow = addDays(today, 1);
+  const [todayRows, upcoming, pendingFuture, tomorrowRows] = await Promise.all([
     listAppointments(staff.db, { from: today, to: today, limit: 500 }),
     listAppointments(staff.db, { from: today, limit: 100 }),
     listAppointments(staff.db, { from: today, status: "PENDENTE", limit: 500 }),
+    listAppointments(staff.db, { from: tomorrow, to: tomorrow, limit: 200 }),
   ]);
+  const reminders = tomorrowRows.filter((a) => ["PENDENTE", "CONFIRMADO"].includes(a.status));
   const count = (s: string) => todayRows.filter((a) => a.status === s).length;
   const next = upcoming.filter((a) => ["PENDENTE", "CONFIRMADO"].includes(a.status)).slice(0, 10);
 
@@ -44,6 +48,37 @@ export default async function Dashboard() {
       <h2 className="h2">Agenda do dia</h2>
       <div className="mb-6">
         <AppointmentTable rows={todayRows} showDate={false} />
+      </div>
+
+      <h2 className="h2">Lembretes de amanhã ({formatBR(tomorrow)})</h2>
+      <div className="card mb-6 text-sm">
+        {reminders.length === 0 ? (
+          <p>Nenhuma consulta amanhã.</p>
+        ) : (
+          <ul className="space-y-2">
+            {reminders.map((a) => {
+              const link = a.paciente
+                ? buildWhatsAppLink(
+                    a.paciente.telefone,
+                    buildReminder({
+                      clinica: settings.clinica.nome,
+                      paciente: a.paciente.nome,
+                      procedimento: a.procedimento?.nome ?? "",
+                      profissional: a.profissional?.nome ?? "",
+                      data: a.data,
+                      hora: normalizeTime(a.hora_inicio),
+                    }),
+                  )
+                : null;
+              return (
+                <li key={a.id} className="flex flex-wrap items-center gap-2">
+                  <span>{normalizeTime(a.hora_inicio)} — {a.paciente?.nome} ({a.procedimento?.nome})</span>
+                  {link && <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-sm">Enviar lembrete no WhatsApp</a>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
 
       <h2 className="h2">Próximos atendimentos</h2>

@@ -37,7 +37,7 @@ Aplicação web para clínicas odontológicas: site público de agendamento + pa
 | **Site público** | O `anon` **não tem acesso a nenhuma tabela**. As páginas públicas rodam no servidor (service role) e devolvem só o necessário (procedimentos, profissionais, horários livres). Nada de dados de pacientes/agenda é exposto. |
 | **Novos perfis** | Tabela `roles` + mapa `ROLE_PERMISSIONS` (`src/lib/auth/permissions.ts`). Para criar um perfil: insira em `roles` (migration) e liste as permissões no mapa. |
 | **Sem CPF** | Coletamos só nome, telefone/WhatsApp e e-mail opcional (minimização de dados / LGPD). |
-| **WhatsApp** | Link `wa.me` com mensagem pronta (`src/lib/whatsapp.ts`). A interface `NotificationProvider` permite trocar pela **WhatsApp Business API** sem mexer nas regras de negócio. |
+| **WhatsApp** | Link `wa.me` com mensagem pronta (`src/lib/whatsapp.ts`): aviso de novo agendamento à clínica, **confirmação** ao paciente (tela do agendamento) e **lembrete de amanhã** com 1 clique por paciente (Dashboard). Sem custo e sem API. A interface `NotificationProvider` permite trocar pela **WhatsApp Business API** sem mexer nas regras de negócio. |
 
 ### Permissões
 

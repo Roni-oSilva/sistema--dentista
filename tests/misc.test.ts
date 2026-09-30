@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { signToken, verifyToken } from "@/lib/signed-token";
-import { buildNewBookingMessage, buildWhatsAppLink, toWaNumber } from "@/lib/whatsapp";
+import { buildNewBookingMessage, buildPatientConfirmation, buildReminder, buildWhatsAppLink, toWaNumber } from "@/lib/whatsapp";
 import { formatPhone, normalizePhone } from "@/validators/common";
 import { publicPatientSchema, blockedPeriodSchema, slotRowSchema, passwordSchema } from "@/validators/schemas";
 
@@ -32,6 +32,12 @@ describe("WhatsApp", () => {
     const url = buildWhatsAppLink("(91) 98888-7777", buildNewBookingMessage(data))!;
     expect(url.startsWith("https://wa.me/5591988887777?text=")).toBe(true);
     expect(decodeURIComponent(url.split("text=")[1])).toContain("Horário: 14:30");
+  });
+  it("confirmação e lembrete para o paciente", () => {
+    const d = { clinica: "Clínica X", paciente: "João", procedimento: "Avaliação", profissional: "Dra. Maria", data: "2026-10-07", hora: "14:30" };
+    expect(buildPatientConfirmation(d)).toContain("07/10/2026 às 14:30");
+    expect(buildReminder(d)).toContain("amanhã (07/10/2026) às 14:30");
+    expect(buildReminder(d)).toContain("CONFIRMO");
   });
   it("números", () => {
     expect(toWaNumber("91988887777")).toBe("5591988887777");
