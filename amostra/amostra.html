@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amostra – Sistema de Agendamento</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:#f3f4f6;color:#111827;font-size:15px}
+.top{background:#111827;color:#fff;padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:0;z-index:5}
+.top b{margin-right:8px}
+.top button{background:#374151;color:#fff;border:0;padding:6px 10px;border-radius:4px;cursor:pointer;font-size:13px}
+.top button.on{background:#2563eb}
+.note{background:#fef3c7;color:#92400e;padding:8px 14px;font-size:13px}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+.card{background:#fff;border:1px solid #d1d5db;border-radius:6px;padding:14px;margin-bottom:12px}
+h1{font-size:22px;margin:0 0 12px}h2{font-size:17px;margin:0 0 8px}
+.btn{display:inline-block;background:#1f2937;color:#fff;border:1px solid #1f2937;border-radius:5px;padding:8px 12px;font-size:14px;cursor:pointer;text-decoration:none}
+.btn.sec{background:#fff;color:#111827;border-color:#9ca3af}
+.btn.red{background:#b91c1c;border-color:#b91c1c}
+.btn.sm{padding:4px 8px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+input,select{width:100%;padding:8px;border:1px solid #9ca3af;border-radius:5px;font-size:14px;background:#fff}
+label{display:block;font-size:13px;font-weight:600;margin:8px 0 3px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:7px;border-bottom:1px solid #e5e7eb}th{background:#f9fafb;border-bottom:1px solid #d1d5db}
+.tw{overflow-x:auto}
+.b{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.DISPONIVEL,.REALIZADO{background:#dcfce7;color:#14532d}.OCUPADO,.CONFIRMADO{background:#dbeafe;color:#1e3a8a}
+.BLOQUEADO,.CANCELADO{background:#fee2e2;color:#7f1d1d}.PENDENTE{background:#fef9c3;color:#713f12}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.stats .card{margin:0}.stats small{color:#6b7280;font-size:12px}.stats p{margin:2px 0 0;font-size:26px;font-weight:700}
+.ok{background:#dcfce7;border:1px solid #86efac;color:#166534;padding:10px;border-radius:5px;margin-bottom:10px}
+.err{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:10px;border-radius:5px;margin-bottom:10px}
+.info{background:#dbeafe;border:1px solid #93c5fd;color:#1e40af;padding:10px;border-radius:5px;margin-bottom:10px}
+nav.adm{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin-bottom:12px;padding:10px;background:#fff;border:1px solid #d1d5db;border-radius:6px}
+nav.adm a{cursor:pointer;text-decoration:underline}
+pre{white-space:pre-wrap;font-size:13px}
+.screen{display:none}.screen.show{display:block}
+</style>
+</head>
+<body>
+<div class="top">
+  <b>Amostra</b>
+  <button data-g="pub" class="on">Site público (paciente)</button>
+  <button data-g="adm">Painel administrativo</button>
+</div>
+<div class="note">Isto é só uma <b>maquete estática</b> com dados fictícios para você ver como está o visual da etapa 1 (simples, funcional e responsivo). O sistema real roda com banco e login de verdade.</div>
+<div class="wrap">
+
+<!-- ================= SITE PÚBLICO ================= -->
+<section id="pub">
+  <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+    <b style="font-size:18px">Clínica Odontológica Exemplo</b><a class="btn sm" onclick="go('p1')">Agendar consulta</a>
+  </div>
+
+  <div class="screen show" id="p1">
+    <h1>1. Escolha o procedimento</h1>
+    <div class="card"><a class="btn sec sm" onclick="pick('proc','Avaliação',30);go('p2')"><b>Avaliação</b></a> <small>(30 min)</small><br><small>Consulta inicial de avaliação</small></div>
+    <div class="card"><a class="btn sec sm" onclick="pick('proc','Limpeza',30);go('p2')"><b>Limpeza</b></a> <small>(30 min)</small><br><small>Profilaxia e remoção de tártaro</small></div>
+    <div class="card"><a class="btn sec sm" onclick="pick('proc','Clareamento',60);go('p2')"><b>Clareamento</b></a> <small>(60 min)</small><br><small>Clareamento dental em consultório</small></div>
+    <div class="card"><a class="btn sec sm" onclick="pick('proc','Restauração',60);go('p2')"><b>Restauração</b></a> <small>(60 min)</small></div>
+  </div>
+
+  <div class="screen" id="p2">
+    <h1>2. Escolha o profissional</h1>
+    <div class="card"><a class="btn sec sm" onclick="pick('prof','Dra. Maria Exemplo');go('p3')"><b>Dra. Maria Exemplo</b></a></div>
+    <div class="card"><a class="btn sec sm" onclick="pick('prof','Dr. Carlos Exemplo');go('p3')"><b>Dr. Carlos Exemplo</b></a></div>
+    <a onclick="go('p1')" style="text-decoration:underline;cursor:pointer;font-size:13px">Voltar</a>
+  </div>
+
+  <div class="screen" id="p3">
+    <h1>3. Escolha a data</h1>
+    <p class="info" style="font-size:13px">Só aparecem dias com horário livre. Fins de semana, feriados e congressos não aparecem (ex.: 12/10 feriado e 20–21/10 congresso).</p>
+    <div class="grid">
+      <a class="btn sec" onclick="pick('data','qua 07/10/2026');go('p4')">qua 07/10/2026</a>
+      <a class="btn sec" onclick="pick('data','qui 08/10/2026');go('p4')">qui 08/10/2026</a>
+      <a class="btn sec" onclick="pick('data','sex 09/10/2026');go('p4')">sex 09/10/2026</a>
+      <a class="btn sec" onclick="pick('data','ter 13/10/2026');go('p4')">ter 13/10/2026</a>
+      <a class="btn sec" onclick="pick('data','qua 14/10/2026');go('p4')">qua 14/10/2026</a>
+      <a class="btn sec" onclick="pick('data','qui 22/10/2026');go('p4')">qui 22/10/2026</a>
+    </div>
+  </div>
+
+  <div class="screen" id="p4">
+    <h1>4. Escolha o horário</h1>
+    <p id="p4sub" style="font-size:13px"></p>
+    <p class="info" style="font-size:13px">12:00–14:00 é intervalo (não aparece). Procedimentos de 60 min não atravessam o intervalo. <span style="color:#991b1b">10:00 está reservado.</span></p>
+    <div class="grid" id="times"></div>
+  </div>
+
+  <div class="screen" id="p5">
+    <h1>5. Seus dados</h1>
+    <div class="card">
+      <label>Nome completo</label><input id="fn" value="João Silva">
+      <label>WhatsApp (com DDD)</label><input id="ft" value="(91) 99999-9999">
+      <label>E-mail (opcional)</label><input placeholder="voce@email.com">
+      <label style="font-weight:400"><input type="checkbox" checked style="width:auto"> Concordo em informar meus dados para fins de agendamento e contato pela clínica.</label>
+      <p><a class="btn" onclick="go('p6')">Continuar</a></p>
+    </div>
+  </div>
+
+  <div class="screen" id="p6">
+    <h1>6. Resumo</h1>
+    <div class="card" id="resumo"></div>
+    <a class="btn" onclick="confirmar()">Confirmar agendamento</a>
+    <div id="p6err"></div>
+  </div>
+
+  <div class="screen" id="p7">
+    <h1>Agendamento registrado</h1>
+    <p class="ok" id="okmsg"></p>
+    <div class="card"><pre id="wa"></pre></div>
+    <a class="btn" onclick="alert('No sistema real abre o WhatsApp com esta mensagem já preenchida (link wa.me).')">Enviar pelo WhatsApp</a>
+    <p><a class="btn sec sm" onclick="reset()">Recomeçar demonstração</a></p>
+  </div>
+</section>
+
+<!-- ================= PAINEL ================= -->
+<section id="adm" style="display:none">
+  <div class="screen show" id="a0">
+    <h1 style="text-align:center">Painel da clínica</h1>
+    <div class="card" style="max-width:340px;margin:auto">
+      <label>E-mail</label><input value="admin@suaclinica.com">
+      <label>Senha</label><input type="password" value="••••••••••">
+      <p><a class="btn" onclick="go('a1');navShow(true)">Entrar</a></p>
+      <small><u>Esqueci minha senha</u></small>
+    </div>
+  </div>
+
+  <div id="admnav" style="display:none">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;font-size:13px"><span><b>Admin Teste</b> (ADMIN)</span><span><a class="btn sec sm">Alterar senha</a> <a class="btn sm" onclick="go('a0');navShow(false)">Sair</a></span></div>
+    <nav class="adm">
+      <a onclick="go('a1')">Dashboard</a><a onclick="go('a2')">Agenda</a><a onclick="go('a1')">Agendamentos</a><a onclick="go('a1')">Pacientes</a>
+      <a onclick="go('a1')">Profissionais</a><a onclick="go('a1')">Procedimentos</a><a onclick="go('a1')">Bloqueios</a>
+      <a onclick="go('a3')">Planilha</a><a onclick="go('a4')">Importar Excel</a><a onclick="go('a1')">Configurações</a><a onclick="go('a1')">Usuários</a><a onclick="go('a1')">Auditoria</a>
+    </nav>
+  </div>
+
+  <div class="screen" id="a1">
+    <h1>Dashboard — 07/10/2026</h1>
+    <div class="stats">
+      <div class="card"><small>Consultas hoje</small><p>5</p></div><div class="card"><small>Pendentes</small><p>3</p></div>
+      <div class="card"><small>Confirmadas hoje</small><p>2</p></div><div class="card"><small>Realizadas hoje</small><p>0</p></div><div class="card"><small>Cancelamentos hoje</small><p>1</p></div>
+    </div>
+    <h2>Agenda do dia</h2>
+    <div class="card tw"><table><tr><th>Horário</th><th>Paciente</th><th>Procedimento</th><th>Profissional</th><th>Status</th><th></th></tr>
+      <tr><td>09:00–09:30</td><td>João Silva<br><small>(91) 99999-0001</small></td><td>Avaliação</td><td>Dra. Maria</td><td><span class="b CONFIRMADO">CONFIRMADO</span></td><td><u>Abrir</u></td></tr>
+      <tr><td>10:00–10:30</td><td>Ana Souza<br><small>(91) 99999-0002</small></td><td>Limpeza</td><td>Dr. Carlos</td><td><span class="b PENDENTE">PENDENTE</span></td><td><u>Abrir</u></td></tr>
+      <tr><td>14:00–15:00</td><td>Pedro Lima<br><small>(91) 99999-0003</small></td><td>Clareamento</td><td>Dra. Maria</td><td><span class="b PENDENTE">PENDENTE</span></td><td><u>Abrir</u></td></tr>
+      <tr><td>15:30–16:00</td><td>Carla Dias</td><td>Avaliação</td><td>Dra. Maria</td><td><span class="b CANCELADO">CANCELADO</span></td><td><u>Abrir</u></td></tr></table></div>
+  </div>
+
+  <div class="screen" id="a2">
+    <h1>Agenda — Quarta, 07/10/2026</h1>
+    <div class="card" style="display:flex;gap:8px;flex-wrap:wrap"><select style="width:auto"><option>Dra. Maria Exemplo</option></select><input type="date" value="2026-10-07" style="width:auto"><a class="btn sec sm">← Dia anterior</a><a class="btn sec sm">Hoje</a><a class="btn sec sm">Próximo dia →</a></div>
+    <div class="card tw"><table><tr><th>Horário</th><th>Situação</th><th>Detalhes</th><th></th></tr>
+      <tr><td>08:00</td><td><span class="b DISPONIVEL">DISPONIVEL</span></td><td></td><td><u>Agendar</u></td></tr>
+      <tr><td>08:30</td><td><span class="b DISPONIVEL">DISPONIVEL</span></td><td></td><td><u>Agendar</u></td></tr>
+      <tr><td>09:00</td><td><span class="b OCUPADO">OCUPADO</span></td><td>João Silva — Avaliação <span class="b CONFIRMADO">CONFIRMADO</span></td><td><u>Abrir</u></td></tr>
+      <tr><td>09:30</td><td><span class="b DISPONIVEL">DISPONIVEL</span></td><td></td><td><u>Agendar</u></td></tr>
+      <tr><td>11:30</td><td><span class="b DISPONIVEL">DISPONIVEL</span></td><td></td><td><u>Agendar</u></td></tr>
+      <tr><td>14:00</td><td><span class="b OCUPADO">OCUPADO</span></td><td rowspan="2">Pedro Lima — Clareamento (60 min)</td><td><u>Abrir</u></td></tr>
+      <tr><td>14:30</td><td><span class="b OCUPADO">OCUPADO</span></td><td></td></tr>
+      <tr><td>17:00</td><td><span class="b BLOQUEADO">BLOQUEADO</span></td><td>reunião</td><td></td></tr>
+      <tr><td>17:30</td><td><span class="b DISPONIVEL">DISPONIVEL</span></td><td></td><td><u>Agendar</u></td></tr></table><small>(12:00–14:00 = intervalo, sem linhas)</small></div>
+  </div>
+
+  <div class="screen" id="a3">
+    <h1>Planilha de disponibilidade</h1>
+    <p class="info" style="font-size:13px">Grade efetiva do período. Alterar uma linha cria uma <i>exceção</i>; “Restaurar padrão” remove. OCUPADO vem dos agendamentos.</p>
+    <div class="card" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select style="width:auto"><option>Dra. Maria Exemplo</option></select><input type="date" value="2026-10-07" style="width:auto"><input type="date" value="2026-10-13" style="width:auto"><a class="btn sm">Atualizar</a><a class="btn sec sm">Baixar Excel</a><a class="btn sec sm" onclick="go('a4')">Importar Excel</a></div>
+    <div class="card tw"><table><tr><th>Data</th><th>Horário</th><th>Status</th><th>Profissional</th><th>Observação</th><th></th></tr>
+      <tr><td>07/10/2026</td><td>08:00</td><td><span class="b DISPONIVEL">DISPONIVEL</span></td><td>Dra. Maria</td><td><select style="width:auto"><option>DISPONIVEL</option><option>BLOQUEADO</option></select> <input style="width:140px"> <a class="btn sm">Salvar</a></td><td></td></tr>
+      <tr><td>07/10/2026</td><td>09:00</td><td><span class="b OCUPADO">OCUPADO</span></td><td>Dra. Maria</td><td><small>Agendamento ativo</small></td><td></td></tr>
+      <tr><td>07/10/2026</td><td>17:00</td><td><span class="b BLOQUEADO">BLOQUEADO</span> <small>(exceção)</small></td><td>Dra. Maria</td><td><select style="width:auto"><option>BLOQUEADO</option></select> <input style="width:140px" value="reunião"> <a class="btn sm">Salvar</a> <a class="btn sec sm">Restaurar padrão</a></td><td></td></tr>
+      <tr><td>12/10/2026</td><td>08:00</td><td><span class="b BLOQUEADO">BLOQUEADO</span></td><td>Dra. Maria</td><td><small>Feriado</small></td><td></td></tr></table></div>
+  </div>
+
+  <div class="screen" id="a4">
+    <h1>Importar / exportar Excel</h1>
+    <p><a class="btn sec sm">Baixar Excel da agenda</a> <a class="btn sec sm">Baixar agendamentos</a> <a class="btn sec sm">Baixar pacientes</a></p>
+    <div class="card"><label>Arquivo .xlsx (colunas: Data, Horário, Status, Profissional, Observação)</label><input type="file"><p><label style="font-weight:400"><input type="checkbox" style="width:auto"> Remover exceções ausentes da planilha</label></p><a class="btn" onclick="document.getElementById('imp').style.display='block'">Validar arquivo (exemplo)</a></div>
+    <div id="imp" style="display:none" class="card">
+      <h2>Resumo da importação</h2>
+      <p class="info">Esta importação irá alterar 43 registros. Nada foi gravado ainda.</p>
+      <p>Novos: <b>25</b> · Alterados: <b>18</b> · Removidos: <b>3</b> · Conflitos: <b>2</b> · Com erro: <b>2</b></p>
+      <div class="tw"><table><tr><th>Linha</th><th>Coluna</th><th>Valor</th><th>Motivo</th></tr>
+        <tr><td>8</td><td>Horário</td><td>25:61</td><td>Horário inválido (use HH:MM).</td></tr>
+        <tr><td>12</td><td>Profissional</td><td>Dr. Fantasma</td><td>Profissional não cadastrado.</td></tr>
+        <tr><td>15</td><td>Status</td><td>BLOQUEADO</td><td>Existe agendamento ativo neste horário. Cancele ou remarque antes de bloquear.</td></tr>
+        <tr><td>21</td><td>Status</td><td>DISPONIVEL</td><td>Horário dentro de um bloqueio (feriado/período).</td></tr></table></div>
+      <p><a class="btn" onclick="alert('No sistema real: aplica tudo em uma única transação.')">Confirmar importação</a> <a class="btn sec">Descartar</a></p>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+const S={proc:'',dur:30,prof:'',data:'',hora:''};
+const $=id=>document.getElementById(id);
+function go(id){const sec=id[0]=='p'?'pub':'adm';document.querySelectorAll('#'+sec+' .screen').forEach(e=>e.classList.remove('show'));$(id).classList.add('show');if(id=='p4')buildTimes();if(id=='p6')buildResumo();window.scrollTo(0,0)}
+function pick(k,v,d){if(k=='proc'){S.proc=v;S.dur=d}else S[k]=v}
+function buildTimes(){$('p4sub').textContent=S.proc+' ('+S.dur+' min) — '+S.prof+' — '+S.data;
+  const all=['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30'];
+  const t=all.filter(h=>h!='10:00'&&!(S.dur==60&&(h=='11:30'||h=='17:30'||h=='09:30'))&&!(S.dur==60&&h=='10:30'));
+  $('times').innerHTML=t.map(h=>`<a class="btn sec" onclick="S.hora='${h}';go('p5')">${h}</a>`).join('')}
+function buildResumo(){$('resumo').innerHTML=`<p><b>Paciente:</b> ${$('fn').value}</p><p><b>WhatsApp:</b> ${$('ft').value}</p><p><b>Procedimento:</b> ${S.proc} (${S.dur} min)</p><p><b>Profissional:</b> ${S.prof}</p><p><b>Data:</b> ${S.data.slice(-10)}</p><p><b>Horário:</b> ${S.hora}</p>`;$('p6err').innerHTML=''}
+function confirmar(){
+  if(S.hora=='14:30'&&!window._race){window._race=1;$('p6err').innerHTML='<p class="err" style="margin-top:10px">Este horário acabou de ser reservado. Escolha outro horário.</p><p><small>(Demonstração da disputa: quando duas pessoas escolhem o mesmo horário, só uma confirma. Volte e escolha outro, ou clique Confirmar de novo.)</small></p>';return}
+  $('okmsg').textContent='Seu horário foi reservado para '+S.data.slice(-10)+' às '+S.hora+'. A clínica entrará em contato para confirmar.';
+  $('wa').textContent=`NOVO AGENDAMENTO\nPaciente: ${$('fn').value}\nWhatsApp: ${$('ft').value}\nProcedimento: ${S.proc}\nProfissional: ${S.prof}\nData: ${S.data.slice(-10)}\nHorário: ${S.hora}`;go('p7')}
+function reset(){window._race=0;go('p1')}
+function navShow(v){$('admnav').style.display=v?'block':'none'}
+document.querySelectorAll('.top button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.top button').forEach(x=>x.classList.remove('on'));b.classList.add('on');$('pub').style.display=b.dataset.g=='pub'?'block':'none';$('adm').style.display=b.dataset.g=='adm'?'block':'none'});
+</script>
+</body>
+</html>
