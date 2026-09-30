@@ -1,0 +1,23 @@
+# Configuração do Supabase CLI para desenvolvimento local (`supabase start`).
+# Em produção (projeto na nuvem) estas opções são feitas no painel: veja o README.
+project_id = "sistema-dentista"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+
+[db]
+port = 54322
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]   # SOMENTE desenvolvimento (dados fictícios)
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]
+enable_signup = false          # só administradores criam usuários
+minimum_password_length = 10

@@ -6,6 +6,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { writeAudit } from "@/lib/audit";
 import { AppError, throwIfDbError, toActionError, type ActionResult } from "@/lib/errors";
 import { flashRedirect } from "@/lib/action";
+import { flashParam } from "@/lib/flash";
 import { formToObject, patientSchema } from "@/validators/schemas";
 import { uuid } from "@/validators/common";
 
@@ -22,7 +23,7 @@ export async function createPatientAction(_p: ActionResult | null, fd: FormData)
     return toActionError(e);
   }
   revalidatePath("/admin/pacientes");
-  redirect(`/admin/pacientes/${id}?ok=${encodeURIComponent("Paciente cadastrado.")}`);
+  redirect(`/admin/pacientes/${id}?${flashParam("ok", "Paciente cadastrado.")}`);
 }
 
 export async function updatePatientAction(fd: FormData) {

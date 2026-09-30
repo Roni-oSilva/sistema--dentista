@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { requirePermission } from "@/lib/auth/session";
 import { canSetStatus } from "@/lib/auth/permissions";
 import { writeAudit } from "@/lib/audit";
+import { flashParam } from "@/lib/flash";
 import { AppError, throwIfDbError, toActionError, type ActionResult } from "@/lib/errors";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getSettings } from "@/services/settings";
@@ -17,8 +18,6 @@ import {
   statusChangeSchema,
 } from "@/validators/schemas";
 import { normalizePhone } from "@/validators/common";
-
-const fail = (msg: string) => encodeURIComponent(msg);
 
 /** Criar agendamento pelo painel (secretaria/admin). */
 export async function createAppointmentAction(_p: ActionResult | null, fd: FormData): Promise<ActionResult> {
@@ -52,7 +51,7 @@ export async function createAppointmentAction(_p: ActionResult | null, fd: FormD
     return toActionError(e);
   }
   revalidatePath("/admin", "layout");
-  redirect(`/admin/agendamentos/${id}?ok=${fail("Agendamento criado.")}`);
+  redirect(`/admin/agendamentos/${id}?${flashParam("ok", "Agendamento criado.")}`);
 }
 
 export async function changeStatusAction(fd: FormData) {
@@ -71,10 +70,10 @@ export async function changeStatusAction(fd: FormData) {
     throwIfDbError(error);
     if (!data?.length) throw new AppError("FORBIDDEN");
     await writeAudit(staff, input.status === "CANCELADO" ? "CANCELAR_AGENDAMENTO" : "ALTERAR_STATUS_AGENDAMENTO", "appointments", input.id, { de: before.status, para: input.status });
-    msg = `ok=${fail(input.status === "CANCELADO" ? "Agendamento cancelado. O horário foi liberado." : "Status atualizado.")}`;
+    msg = flashParam("ok", input.status === "CANCELADO" ? "Agendamento cancelado. O horário foi liberado." : "Status atualizado.");
   } catch (e) {
     const r = toActionError(e);
-    msg = `erro=${fail(r.ok ? "Erro" : r.error)}`;
+    msg = flashParam("erro", r.ok ? "Erro" : r.error);
   }
   revalidatePath("/admin", "layout");
   redirect(`${back}?${msg}`);
@@ -91,10 +90,10 @@ export async function updateNoteAction(fd: FormData) {
     throwIfDbError(error);
     if (!data?.length) throw new AppError("NOT_FOUND");
     await writeAudit(staff, "EDITAR_AGENDAMENTO", "appointments", input.id, { campo: "observacao" });
-    msg = `ok=${fail("Observação salva.")}`;
+    msg = flashParam("ok", "Observação salva.");
   } catch (e) {
     const r = toActionError(e);
-    msg = `erro=${fail(r.ok ? "Erro" : r.error)}`;
+    msg = flashParam("erro", r.ok ? "Erro" : r.error);
   }
   revalidatePath(back);
   redirect(`${back}?${msg}`);
@@ -115,10 +114,10 @@ export async function rescheduleAction(fd: FormData) {
       profissionalId: input.profissional_id,
       actorId: staff.id,
     });
-    msg = `ok=${fail("Agendamento remarcado.")}`;
+    msg = flashParam("ok", "Agendamento remarcado.");
   } catch (e) {
     const r = toActionError(e);
-    msg = `erro=${fail(r.ok ? "Erro" : r.error)}`;
+    msg = flashParam("erro", r.ok ? "Erro" : r.error);
   }
   revalidatePath("/admin", "layout");
   redirect(`${back}?${msg}`);

@@ -9,6 +9,7 @@ import { getSettings } from "@/services/settings";
 import { availableTimes, createAppointment, loadBookingTarget } from "@/services/booking";
 import { readPatientCookie, saveDoneCookie, savePatientCookie, stepUrl } from "@/lib/booking-flow";
 import { z } from "zod";
+import { flashToken } from "@/lib/flash";
 
 const fullParams = publicBookingParamsSchema.required();
 
@@ -39,7 +40,7 @@ export async function submitPatientData(_prev: ActionResult | null, fd: FormData
   } catch (e) {
     if (e instanceof AppError && e.code === "SLOT_UNAVAILABLE") {
       const p = publicBookingParamsSchema.safeParse(formToObject(fd));
-      redirect(stepUrl("horario", p.success ? { ...p.data, horario: undefined } : {}, { erro: MESSAGES.SLOT_UNAVAILABLE }));
+      redirect(stepUrl("horario", p.success ? { ...p.data, horario: undefined } : {}, { f: flashToken("erro", MESSAGES.SLOT_UNAVAILABLE) }));
     }
     return toActionError(e);
   }
@@ -71,7 +72,7 @@ export async function confirmBooking(_prev: ActionResult | null, fd: FormData): 
     await saveDoneCookie(id);
   } catch (e) {
     if (e instanceof AppError && (e.code === "SLOT_TAKEN" || e.code === "SLOT_UNAVAILABLE") && params) {
-      redirect(stepUrl("horario", { ...params, horario: undefined }, { erro: MESSAGES.SLOT_TAKEN }));
+      redirect(stepUrl("horario", { ...params, horario: undefined }, { f: flashToken("erro", MESSAGES.SLOT_TAKEN) }));
     }
     return toActionError(e);
   }

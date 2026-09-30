@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { AppError, toActionError, type ActionResult } from "@/lib/errors";
 import { passwordSchema } from "@/validators/schemas";
+import { flashParam } from "@/lib/flash";
 import { z } from "zod";
 
 const schema = z
@@ -25,7 +26,7 @@ export async function setNewPassword(_prev: ActionResult | null, fd: FormData): 
     await db.from("audit_logs").insert({ user_id: data.user.id, acao: "RECUPERAR_SENHA", entidade: "auth", entidade_id: data.user.id, detalhes: {} });
     store.delete("pw_recovery");
     await db.auth.signOut(); // força novo login com a senha nova
-    redirect(`/login?ok=${encodeURIComponent("Senha alterada. Entre com a nova senha.")}`);
+    redirect(`/login?${flashParam("ok", "Senha alterada. Entre com a nova senha.")}`);
   } catch (e) {
     return toActionError(e);
   }

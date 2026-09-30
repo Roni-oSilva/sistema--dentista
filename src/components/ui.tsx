@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { readFlash } from "@/lib/flash";
 
 const STATUS_STYLE: Record<string, string> = {
   PENDENTE: "bg-yellow-100 text-yellow-900",
@@ -19,20 +20,11 @@ export function Notice({ kind = "info", children }: { kind?: "info" | "error" | 
   return <p className={`alert-${kind} mb-4`}>{children}</p>;
 }
 
-/** Lê mensagem de erro/sucesso vinda por querystring (redirects de ações). Texto sempre escapado pelo React. */
-export function flash(sp: Record<string, string | string[] | undefined>) {
-  const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
-  return { erro: first(sp.erro), ok: first(sp.ok) };
-}
-
+/** Mensagem pós-redirect (assinada em lib/flash.ts; não dá para forjar pela URL). */
 export function Flash({ sp }: { sp: Record<string, string | string[] | undefined> }) {
-  const { erro, ok } = flash(sp);
-  return (
-    <>
-      {erro && <Notice kind="error">{erro.slice(0, 300)}</Notice>}
-      {ok && <Notice kind="ok">{ok.slice(0, 300)}</Notice>}
-    </>
-  );
+  const f = readFlash(sp);
+  if (!f) return null;
+  return <Notice kind={f.kind === "erro" ? "error" : "ok"}>{f.msg}</Notice>;
 }
 
 export type SearchParams = Promise<Record<string, string | string[] | undefined>>;

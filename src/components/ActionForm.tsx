@@ -1,13 +1,17 @@
 "use client";
 
-import { useActionState, type ReactNode } from "react";
+import { createContext, startTransition, useActionState, useContext, type ReactNode } from "react";
 import { useFormStatus } from "react-dom";
 import type { ActionResult } from "@/lib/errors";
 
 type Action = (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>;
 
+const PendingContext = createContext(false);
+
 export function SubmitButton({ children, className = "btn", confirm }: { children: ReactNode; className?: string; confirm?: string }) {
-  const { pending } = useFormStatus();
+  const status = useFormStatus();
+  const ctxPending = useContext(PendingContext);
+  const pending = status.pending || ctxPending;
   return (
     <button
       type="submit"
@@ -32,10 +36,19 @@ export function ActionForm({
   children: ReactNode;
   className?: string;
 }) {
-  const [state, formAction] = useActionState(action, null);
+  const [state, formAction, pending] = useActionState(action, null);
   return (
-    <form action={formAction} className={className}>
-      {children}
+    // onSubmit em vez de action={...}: o React 19 limpa os campos após uma <form action>, o que
+    // apagaria o que a pessoa digitou quando há erro de validação.
+    <form
+      className={className}
+      onSubmit={(e) => {
+        e.preventDefault();
+        const fd = new FormData(e.currentTarget, (e.nativeEvent as SubmitEvent).submitter);
+        startTransition(() => formAction(fd));
+      }}
+    >
+      <PendingContext.Provider value={pending}>{children}</PendingContext.Provider>
       {state && !state.ok && (
         <p role="alert" className="alert-error mt-3">
           {state.error}

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { safeNext } from "@/lib/safe-redirect";
+import { flashParam } from "@/lib/flash";
 
 /** Troca o código do link de e-mail (recuperação de senha) por uma sessão. */
 export async function GET(request: NextRequest) {
@@ -19,5 +20,5 @@ export async function GET(request: NextRequest) {
       return res;
     }
   }
-  return NextResponse.redirect(`${origin}/login?erro=${encodeURIComponent("Link inválido ou expirado. Solicite um novo.")}`);
+  return NextResponse.redirect(`${origin}/login?${flashParam("erro", "Link inválido ou expirado. Solicite um novo.")}`);
 }
