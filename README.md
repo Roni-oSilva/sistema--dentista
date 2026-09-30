@@ -43,14 +43,14 @@ Aplicação web para clínicas odontológicas: site público de agendamento + pa
 
 | | ADMIN | SECRETARIA |
 |---|:-:|:-:|
-| Dashboard, ver agenda, ver agendamentos, ver pacientes | ✅ | ✅ |
-| Criar/editar agendamentos, atualizar status (confirmar/realizado/não compareceu) | ✅ | ✅ |
-| Cadastrar pacientes | ✅ | ✅ (criar) |
-| Editar pacientes | ✅ | ❌ |
-| **Cancelar / remarcar** | ✅ | ❌ |
-| Profissionais, procedimentos, disponibilidade, bloqueios, planilha | ✅ | ❌ |
-| Importar/exportar Excel | ✅ | ❌ |
-| Configurações, usuários, auditoria | ✅ | ❌ |
+| Dashboard, ver agenda, ver agendamentos, ver pacientes | Sim | Sim |
+| Criar/editar agendamentos, atualizar status (confirmar/realizado/não compareceu) | Sim | Sim |
+| Cadastrar pacientes | Sim | Sim (criar) |
+| Editar pacientes | Sim | Não |
+| **Cancelar / remarcar** | Sim | Não |
+| Profissionais, procedimentos, disponibilidade, bloqueios, planilha | Sim | Não |
+| Importar/exportar Excel | Sim | Não |
+| Configurações, usuários, auditoria | Sim | Não |
 
 Para dar a SECRETARIA mais poderes (ex.: cancelar), altere `ROLE_PERMISSIONS` **e** o trigger `appointments_guard` / as policies de RLS correspondentes — o banco também impõe estas regras.
 

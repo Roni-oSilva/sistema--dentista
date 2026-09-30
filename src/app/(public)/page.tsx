@@ -34,7 +34,7 @@ export default async function Home() {
             </p>
             <div className="anim-rise d4 mt-7 flex flex-wrap items-center gap-3">
               <span className="pill-white shine inline-flex items-center gap-2 px-5 py-3 text-base font-bold">
-                {c.horario_funcionamento || "Agendamento online grátis"} <span aria-hidden="true">🔥</span>
+                {c.horario_funcionamento || "Agendamento online grátis"}
               </span>
             </div>
             <Link href="/agendamento" className="cta-blue group anim-rise d5 mt-4 inline-flex items-center gap-3 py-1.5 pl-2 pr-5 text-sm font-bold">

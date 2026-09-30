@@ -33,7 +33,7 @@ export default async function ConfirmadoPage() {
   const link = whatsappLinkProvider.bookingCreated(settings.clinica.whatsapp, msgData);
   return (
     <div className="mx-auto max-w-xl px-4 py-8">
-      <h1 className="h1">Agendamento registrado ✓</h1>
+      <h1 className="h1">Agendamento registrado</h1>
       <p className="alert-ok mb-4">
         Seu horário foi reservado para {formatBR(msgData.data)} às {msgData.hora}. A clínica entrará em contato para confirmar.
       </p>
