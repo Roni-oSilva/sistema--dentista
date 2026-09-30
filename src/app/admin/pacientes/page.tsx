@@ -33,7 +33,7 @@ export default async function PacientesPage({ searchParams }: { searchParams: Se
           <tbody>
             {(patients ?? []).map((p) => (
               <tr key={p.id}><td>{p.nome}</td><td>{formatPhone(p.telefone)}</td><td>{p.email}</td>
-                <td><Link className="underline" href={`/admin/pacientes/${p.id}`}>Abrir / histórico</Link></td></tr>
+                <td><Link className="font-semibold text-royal underline" href={`/admin/pacientes/${p.id}`}>Abrir / histórico</Link></td></tr>
             ))}
           </tbody>
         </table>

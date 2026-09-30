@@ -2,6 +2,8 @@ import Link from "next/link";
 import { requireStaff } from "@/lib/auth/session";
 import { hasPermission, type Permission } from "@/lib/auth/permissions";
 import { logoutAction } from "@/app/login/actions";
+import { AdminNav } from "@/components/AdminNav";
+import { Logo } from "@/components/brand";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: { default: "Painel", template: "%s | Painel" }, robots: { index: false, follow: false } };
@@ -23,31 +25,23 @@ const NAV: { href: string; label: string; perm: Permission }[] = [
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const staff = await requireStaff();
+  const items = NAV.filter((n) => hasPermission(staff.role, n.perm)).map(({ href, label }) => ({ href, label }));
   return (
     <div>
-      <header className="border-b border-gray-300 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 p-3">
-          <span className="text-sm">
-            <strong>{staff.nome}</strong> ({staff.role})
-          </span>
-          <div className="flex items-center gap-2">
-            <Link href="/admin/alterar-senha" className="btn btn-secondary btn-sm">
-              Alterar senha
-            </Link>
+      <header className="bg-deep text-white">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-3 py-3">
+          <Link href="/admin" aria-label="Painel — início"><Logo name="Painel" dark /></Link>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="hidden sm:inline text-white/80"><b className="text-white">{staff.nome}</b> · {staff.role}</span>
+            <Link href="/admin/alterar-senha" className="btn btn-sm border border-white/30 bg-transparent hover:bg-white/10">Alterar senha</Link>
             <form action={logoutAction}>
-              <button className="btn btn-sm">Sair</button>
+              <button className="btn btn-light btn-sm">Sair</button>
             </form>
           </div>
         </div>
-        <nav className="mx-auto flex max-w-6xl flex-wrap gap-x-4 gap-y-1 px-3 pb-3 text-sm" aria-label="Menu">
-          {NAV.filter((n) => hasPermission(staff.role, n.perm)).map((n) => (
-            <Link key={n.href} href={n.href} className="underline">
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+        <AdminNav items={items} />
       </header>
-      <main className="mx-auto max-w-6xl p-3">{children}</main>
+      <main className="mx-auto max-w-6xl p-3 sm:p-5">{children}</main>
     </div>
   );
 }

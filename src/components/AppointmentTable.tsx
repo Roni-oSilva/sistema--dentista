@@ -30,7 +30,7 @@ export function AppointmentTable({ rows, showDate = true }: { rows: AppointmentR
               <td>
                 {a.paciente?.nome}
                 <br />
-                <span className="text-xs text-gray-600">{a.paciente ? formatPhone(a.paciente.telefone) : ""}</span>
+                <span className="text-xs text-muted">{a.paciente ? formatPhone(a.paciente.telefone) : ""}</span>
               </td>
               <td>{a.procedimento?.nome}</td>
               <td>{a.profissional?.nome}</td>

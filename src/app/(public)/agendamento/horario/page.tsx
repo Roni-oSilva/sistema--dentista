@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { parseBookingParams, stepUrl } from "@/lib/booking-flow";
+import { Stepper } from "@/components/brand";
 import { Flash, type SearchParams } from "@/components/ui";
 import { AppError } from "@/lib/errors";
 import { getSettings } from "@/services/settings";
@@ -30,24 +31,25 @@ export default async function HorarioPage({ searchParams }: { searchParams: Sear
     aplicarJanela: true,
   });
   return (
-    <div>
-      <h1 className="h1">4. Escolha o horário</h1>
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <Stepper step={4} />
+      <h1 className="h1">Escolha o horário</h1>
       <Flash sp={sp} />
-      <p className="mb-3 text-sm">
-        {target.procedure.nome} — {target.professional.nome} — {WEEKDAYS_PT[weekdayOf(params.data)]}, {formatBR(params.data)}
+      <p className="mb-4 text-sm text-muted">
+        <b className="text-ink">{target.procedure.nome}</b> · {target.professional.nome} · {WEEKDAYS_PT[weekdayOf(params.data)]}, {formatBR(params.data)}
       </p>
       {times.length === 0 && <p className="alert-info">Não há horários livres nesta data. Escolha outra data.</p>}
       <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
         {times.map((t) => (
           <li key={t}>
-            <Link href={stepUrl("dados", { ...params, horario: t })} className="btn btn-secondary w-full">
+            <Link href={stepUrl("dados", { ...params, horario: t })} className="slot">
               {t}
             </Link>
           </li>
         ))}
       </ul>
       <p className="mt-4 text-sm">
-        <Link href={stepUrl("data", { ...params, data: undefined })} className="underline">
+        <Link href={stepUrl("data", { ...params, data: undefined })} className="font-semibold text-royal underline">
           Escolher outra data
         </Link>
       </p>

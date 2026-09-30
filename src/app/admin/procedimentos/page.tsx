@@ -12,7 +12,7 @@ export default async function ProcedimentosPage({ searchParams }: { searchParams
     <div>
       <h1 className="h1">Procedimentos</h1>
       <Flash sp={await searchParams} />
-      <p className="mb-3 text-sm text-gray-700">Procedimentos não são apagados (há histórico de agendamentos): desative-os desmarcando “Ativo”.</p>
+      <p className="mb-3 text-sm text-muted">Procedimentos não são apagados (há histórico de agendamentos): desative-os desmarcando “Ativo”.</p>
       <div className="space-y-3">
         {(data ?? []).map((p) => (
           <form key={p.id} action={saveProcedureAction} className="card grid grid-cols-1 gap-2 sm:grid-cols-6">

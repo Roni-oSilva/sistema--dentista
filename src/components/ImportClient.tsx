@@ -75,7 +75,7 @@ export function ImportClient() {
           <ul className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
             <li>Novos: <b>{s.novos}</b></li>
             <li>Alterados: <b>{s.alterados}</b></li>
-            <li>Removidos: <b>{s.removidos}</b>{s.ausentes > 0 && s.removidos === 0 && <span className="text-xs text-gray-600"> ({s.ausentes} ausentes mantidos)</span>}</li>
+            <li>Removidos: <b>{s.removidos}</b>{s.ausentes > 0 && s.removidos === 0 && <span className="text-xs text-muted"> ({s.ausentes} ausentes mantidos)</span>}</li>
             <li>Conflitos: <b>{s.conflitos}</b></li>
             <li>Inalterados: <b>{s.inalterados}</b></li>
             <li>Ignorados (OCUPADO): <b>{s.ignorados}</b></li>

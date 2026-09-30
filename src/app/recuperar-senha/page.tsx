@@ -6,7 +6,7 @@ export const metadata = { title: "Recuperar senha" };
 
 export default function RecoverPage() {
   return (
-    <main className="mx-auto max-w-sm p-4">
+    <main className="mx-auto max-w-sm p-5 pt-16">
       <h1 className="h1">Recuperar senha</h1>
       <div className="card">
         <ActionForm action={requestPasswordReset}>

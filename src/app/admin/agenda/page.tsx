@@ -65,9 +65,9 @@ export default async function AgendaPage({ searchParams }: { searchParams: Searc
                       {a ? <>{a.paciente?.nome} — {a.procedimento?.nome} <StatusBadge status={a.status} /></> : s.motivo ?? s.excecao?.observacao ?? ""}
                     </td>
                     <td>
-                      {a && <Link className="underline" href={`/admin/agendamentos/${a.id}`}>Abrir</Link>}
+                      {a && <Link className="font-semibold text-royal underline" href={`/admin/agendamentos/${a.id}`}>Abrir</Link>}
                       {!a && s.status === "DISPONIVEL" && hasPermission(staff.role, "appointments.create") && (
-                        <Link className="underline" href={`/admin/agendamentos/novo?profissional=${pro.id}&data=${data}&horario=${s.hora}`}>Agendar</Link>
+                        <Link className="font-semibold text-royal underline" href={`/admin/agendamentos/novo?profissional=${pro.id}&data=${data}&horario=${s.hora}`}>Agendar</Link>
                       )}
                     </td>
                   </tr>

@@ -24,7 +24,7 @@ export default async function BloqueiosPage({ searchParams }: { searchParams: Se
     <div className="space-y-6">
       <h1 className="h1">Bloqueios</h1>
       <Flash sp={await searchParams} />
-      <p className="text-sm text-gray-700">Bloqueios impedem novos agendamentos. Agendamentos já existentes não são cancelados automaticamente: cancele ou remarque-os.</p>
+      <p className="text-sm text-muted">Bloqueios impedem novos agendamentos. Agendamentos já existentes não são cancelados automaticamente: cancele ou remarque-os.</p>
 
       <section className="card">
         <h2 className="h2">Bloquear dia completo</h2>
@@ -47,7 +47,7 @@ export default async function BloqueiosPage({ searchParams }: { searchParams: Se
           {proSelect}
           <SubmitButton>Bloquear</SubmitButton>
         </form>
-        <p className="mt-1 text-xs text-gray-600">Sem horários = dias inteiros. Com horários = apenas essa faixa em cada dia do período.</p>
+        <p className="mt-1 text-xs text-muted">Sem horários = dias inteiros. Com horários = apenas essa faixa em cada dia do período.</p>
       </section>
 
       <section>

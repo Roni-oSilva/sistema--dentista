@@ -86,7 +86,7 @@ await ad.waitForSelector("p[role=alert]");
 check("login: senha errada mostra mensagem genérica", (await ad.textContent("p[role=alert]")).includes("E-mail ou senha incorretos."));
 await ad.fill("#password", "AdminPass123"); await ad.click("button[type=submit]");
 await ad.waitForURL(`${BASE}/admin`, { waitUntil: "commit" });
-check("login: admin entra no dashboard", (await ad.textContent("main")).includes("Dashboard"));
+check("login: admin entra no dashboard", (await ad.textContent("main")).includes("Hoje,"));
 const audLogin = await db.query("select count(*)::int n from audit_logs where acao='LOGIN'");
 check("auditoria: LOGIN registrado", audLogin.rows[0].n === 1);
 

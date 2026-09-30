@@ -20,7 +20,7 @@ export default async function UsuariosPage({ searchParams }: { searchParams: Sea
         {(profiles ?? []).map((p) => (
           <form key={p.id} action={updateUserAction} className="card flex flex-wrap items-center gap-2 text-sm">
             <input type="hidden" name="id" value={p.id} />
-            <span className="min-w-40"><b>{p.nome}</b><br /><span className="text-gray-600">{email.get(p.id)}</span></span>
+            <span className="min-w-40"><b>{p.nome}</b><br /><span className="text-muted">{email.get(p.id)}</span></span>
             <select name="role" defaultValue={p.role} aria-label="Perfil" className="input w-auto"><option>ADMIN</option><option>SECRETARIA</option></select>
             <label><input type="checkbox" name="ativo" defaultChecked={p.ativo} /> Ativo</label>
             <SubmitButton className="btn btn-sm">Salvar</SubmitButton>

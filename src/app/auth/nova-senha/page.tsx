@@ -8,7 +8,7 @@ export const metadata = { title: "Nova senha" };
 export default async function NewPasswordPage() {
   if ((await cookies()).get("pw_recovery")?.value !== "1") redirect("/recuperar-senha");
   return (
-    <main className="mx-auto max-w-sm p-4">
+    <main className="mx-auto max-w-sm p-5 pt-16">
       <h1 className="h1">Definir nova senha</h1>
       <div className="card">
         <ActionForm action={setNewPassword}>

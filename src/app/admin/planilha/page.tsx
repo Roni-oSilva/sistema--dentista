@@ -43,7 +43,7 @@ export default async function PlanilhaPage({ searchParams }: { searchParams: Sea
     <div>
       <h1 className="h1">Planilha de disponibilidade</h1>
       <Flash sp={sp} />
-      <p className="mb-3 text-sm text-gray-700">
+      <p className="mb-3 text-sm text-muted">
         Mostra a grade efetiva (regra semanal + exceções + agendamentos). Alterar uma linha cria uma <em>exceção</em> para aquele horário;
         “Restaurar padrão” remove a exceção. OCUPADO vem dos agendamentos e não é editável aqui.
       </p>
@@ -79,11 +79,11 @@ export default async function PlanilhaPage({ searchParams }: { searchParams: Sea
               <tr key={`${r.data}-${r.hora}`}>
                 <td>{formatBR(r.data)}</td>
                 <td>{r.hora}</td>
-                <td><StatusBadge status={r.status} />{r.origem === "EXCECAO" && <span className="ml-1 text-xs text-gray-600">(exceção)</span>}</td>
+                <td><StatusBadge status={r.status} />{r.origem === "EXCECAO" && <span className="ml-1 text-xs text-muted">(exceção)</span>}</td>
                 <td>{pro.nome}</td>
                 <td colSpan={2}>
                   {r.status === "OCUPADO" ? (
-                    <span className="text-xs text-gray-600">Agendamento ativo</span>
+                    <span className="text-xs text-muted">Agendamento ativo</span>
                   ) : (
                     <div className="flex flex-wrap gap-2">
                       <form action={saveSlotAction} className="flex flex-wrap gap-2">

@@ -35,7 +35,7 @@ export default async function ConfiguracoesPage({ searchParams }: { searchParams
           <label className="label" htmlFor="duracao_padrao_minutos">Duração padrão dos horários (min)</label><input id="duracao_padrao_minutos" name="duracao_padrao_minutos" type="number" min={5} max={240} step={5} defaultValue={s.agenda.duracao_padrao_minutos} className="input" />
           <label className="label" htmlFor="antecedencia_minima_minutos">Antecedência mínima para agendar pelo site (min)</label><input id="antecedencia_minima_minutos" name="antecedencia_minima_minutos" type="number" min={0} defaultValue={s.agenda.antecedencia_minima_minutos} className="input" />
           <label className="label" htmlFor="dias_max_antecedencia">Agendar com até quantos dias de antecedência</label><input id="dias_max_antecedencia" name="dias_max_antecedencia" type="number" min={1} max={365} defaultValue={s.agenda.dias_max_antecedencia} className="input" />
-          <p className="text-xs text-gray-600">Alterar a duração padrão muda a grade de horários futuros. Agendamentos existentes não são afetados.</p>
+          <p className="text-xs text-muted">Alterar a duração padrão muda a grade de horários futuros. Agendamentos existentes não são afetados.</p>
           <SubmitButton>Salvar</SubmitButton>
         </form>
       </section>
@@ -51,7 +51,7 @@ export default async function ConfiguracoesPage({ searchParams }: { searchParams
             ))}</tbody></table></div>
           <div className="my-3 flex flex-wrap items-center gap-2 text-sm">
             Intervalo: <input type="time" name="intervalo_inicio" defaultValue={s.horarioPadrao.intervalo?.inicio ?? ""} className="input w-auto" /> às <input type="time" name="intervalo_fim" defaultValue={s.horarioPadrao.intervalo?.fim ?? ""} className="input w-auto" />
-            <span className="text-xs text-gray-600">(deixe em branco para não ter intervalo)</span>
+            <span className="text-xs text-muted">(deixe em branco para não ter intervalo)</span>
           </div>
           <SubmitButton>Salvar horário padrão</SubmitButton>
         </form>

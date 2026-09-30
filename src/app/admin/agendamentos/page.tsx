@@ -37,7 +37,7 @@ export default async function AgendamentosPage({ searchParams }: { searchParams:
         </div>
       </form>
       <AppointmentTable rows={rows} />
-      {rows.length >= 200 && <p className="mt-2 text-xs text-gray-600">Mostrando os 200 primeiros. Use os filtros para refinar.</p>}
+      {rows.length >= 200 && <p className="mt-2 text-xs text-muted">Mostrando os 200 primeiros. Use os filtros para refinar.</p>}
     </div>
   );
 }

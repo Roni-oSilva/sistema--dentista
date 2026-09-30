@@ -32,12 +32,12 @@ export default async function ConfirmadoPage() {
   };
   const link = whatsappLinkProvider.bookingCreated(settings.clinica.whatsapp, msgData);
   return (
-    <div>
-      <h1 className="h1">Agendamento registrado</h1>
+    <div className="mx-auto max-w-xl px-4 py-8">
+      <h1 className="h1">Agendamento registrado ✓</h1>
       <p className="alert-ok mb-4">
         Seu horário foi reservado para {formatBR(msgData.data)} às {msgData.hora}. A clínica entrará em contato para confirmar.
       </p>
-      <pre className="card mb-4 whitespace-pre-wrap text-sm">{buildNewBookingMessage(msgData)}</pre>
+      <pre className="card mb-4 whitespace-pre-wrap font-sans text-sm">{buildNewBookingMessage(msgData)}</pre>
       {link ? (
         <a href={link.url} target="_blank" rel="noopener noreferrer" className="btn">
           Enviar pelo WhatsApp
@@ -46,7 +46,7 @@ export default async function ConfirmadoPage() {
         <p className="text-sm">Guarde estes dados. Em caso de dúvida, entre em contato com a clínica.</p>
       )}
       <p className="mt-4 text-sm">
-        <Link href="/" className="underline">
+        <Link href="/" className="font-semibold text-royal underline">
           Voltar ao início
         </Link>
       </p>

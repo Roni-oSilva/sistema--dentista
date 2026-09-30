@@ -1,23 +1,73 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter-tight";
+@import "@fontsource-variable/inter";
 
-/* Estilos mínimos e funcionais. O visual será tratado na etapa 2. */
-@layer components {
-  .btn { @apply inline-flex items-center justify-center rounded border border-gray-800 bg-gray-800 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-50; }
-  .btn-secondary { @apply border-gray-400 bg-white text-gray-900 hover:bg-gray-100; }
-  .btn-danger { @apply border-red-700 bg-red-700 hover:bg-red-600; }
-  .btn-sm { @apply px-2 py-1 text-xs; }
-  .input { @apply w-full rounded border border-gray-400 bg-white px-2 py-2 text-sm text-gray-900; }
-  .label { @apply mb-1 block text-sm font-medium text-gray-800; }
-  .card { @apply rounded border border-gray-300 bg-white p-4; }
-  .table-wrap { @apply w-full overflow-x-auto; }
-  .tbl { @apply w-full min-w-[32rem] border-collapse text-left text-sm; }
-  .tbl th { @apply border-b border-gray-300 bg-gray-50 px-2 py-2 font-semibold; }
-  .tbl td { @apply border-b border-gray-200 px-2 py-2 align-top; }
-  .badge { @apply inline-block rounded px-2 py-0.5 text-xs font-semibold; }
-  .alert-error { @apply rounded border border-red-300 bg-red-50 p-3 text-sm text-red-800; }
-  .alert-ok { @apply rounded border border-green-300 bg-green-50 p-3 text-sm text-green-800; }
-  .alert-info { @apply rounded border border-blue-300 bg-blue-50 p-3 text-sm text-blue-800; }
-  .h1 { @apply mb-4 text-2xl font-bold; }
-  .h2 { @apply mb-2 text-lg font-semibold; }
+/*
+ * Identidade visual (referências: verde "Care Center", azul-petróleo "blaze", azul royal "Dentista").
+ * Títulos: grotesca bold de tracking apertado (Inter Tight 800), como no pôster do meio.
+ */
+@theme {
+  --font-display: "Inter Tight Variable", "Inter Tight", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+
+  --color-ink: #06222b;        /* texto / fundos escuros */
+  --color-deep: #042f38;       /* azul-petróleo profundo */
+  --color-teal: #0b6b7a;       /* petróleo médio */
+  --color-royal: #0b47c4;      /* azul royal: ação principal */
+  --color-royal-dark: #07328f;
+  --color-mint: #2fa57f;       /* verde "saúde": disponível / sucesso */
+  --color-mist: #eef5f8;       /* fundo de página */
+  --color-line: #d4e2ea;
+  --color-muted: #51697a;
 }
-body { @apply bg-gray-100 text-gray-900; }
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body { @apply bg-mist font-sans text-ink antialiased; }
+  h1, h2, h3 { font-family: var(--font-display); }
+  :focus-visible { outline: 3px solid color-mix(in srgb, var(--color-royal) 55%, white); outline-offset: 2px; border-radius: 6px; }
+}
+
+@layer components {
+  /* ---------- tipografia ---------- */
+  .display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.035em; line-height: 0.98; text-transform: uppercase; }
+  .display-soft { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.03em; }
+  .h1 { @apply mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl; font-family: var(--font-display); letter-spacing: -0.03em; }
+  .h2 { @apply mb-3 text-lg font-bold; font-family: var(--font-display); letter-spacing: -0.02em; }
+
+  /* ---------- botões ---------- */
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full bg-royal px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-royal-dark active:scale-[.98] disabled:opacity-50; }
+  .btn-secondary { @apply border border-line bg-white text-ink shadow-none hover:bg-mist; }
+  .btn-danger { @apply bg-red-700 hover:bg-red-600; }
+  .btn-light { @apply bg-white text-royal hover:bg-mist; }
+  .btn-lg { @apply px-6 py-3 text-base; }
+  .btn-sm { @apply px-3 py-1 text-xs; }
+
+  /* ---------- formulários ---------- */
+  .input { @apply w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink shadow-sm transition placeholder:text-slate-400 focus:border-royal; }
+  .label { @apply mb-1 block text-sm font-semibold text-ink; }
+
+  /* ---------- superfícies ---------- */
+  .card { @apply rounded-2xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(6,34,43,.04)]; }
+  .table-wrap { @apply w-full overflow-x-auto rounded-2xl border border-line bg-white; }
+  .tbl { @apply w-full min-w-[32rem] border-collapse text-left text-sm; }
+  .tbl th { @apply border-b border-line bg-mist px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-muted; }
+  .tbl td { @apply border-b border-line/70 px-3 py-2.5 align-top; }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl a { @apply font-semibold text-royal underline-offset-2 hover:underline; }
+  .badge { @apply inline-block rounded-full px-2.5 py-0.5 text-[11px] font-bold tracking-wide; }
+  .alert-error { @apply rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800; }
+  .alert-ok { @apply rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800; }
+  .alert-info { @apply rounded-xl border border-sky-200 bg-sky-50 p-3 text-sm text-sky-900; }
+
+  /* ---------- fluxo público ---------- */
+  .opt { @apply flex items-center justify-between gap-3 rounded-2xl border border-line bg-white p-4 shadow-[0_1px_2px_rgba(6,34,43,.04)] transition hover:-translate-y-0.5 hover:border-royal hover:shadow-md; }
+  .opt-title { font-family: var(--font-display); @apply text-lg font-bold tracking-tight; }
+  .slot { @apply flex items-center justify-center rounded-full border border-line bg-white px-3 py-2.5 text-sm font-semibold transition hover:border-royal hover:bg-royal hover:text-white; }
+  .chip { @apply inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-medium text-white backdrop-blur; }
+  .glass { background: linear-gradient(145deg, rgba(255,255,255,.28), rgba(255,255,255,.08)); border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); }
+  .hero { background:
+      radial-gradient(60% 80% at 85% 10%, rgba(47,165,127,.35), transparent 60%),
+      radial-gradient(70% 90% at 0% 100%, rgba(11,71,196,.45), transparent 60%),
+      linear-gradient(160deg, var(--color-deep), #0a5563 70%, #0b6b7a); }
+}

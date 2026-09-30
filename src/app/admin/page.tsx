@@ -35,12 +35,12 @@ export default async function Dashboard() {
 
   return (
     <div>
-      <h1 className="h1">Dashboard — {formatBR(today)}</h1>
+      <h1 className="h1">Hoje, {formatBR(today)}</h1>
       <ul className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {stats.map(([label, n]) => (
           <li key={label} className="card">
-            <p className="text-xs text-gray-600">{label}</p>
-            <p className="text-2xl font-bold">{n}</p>
+            <p className="text-xs font-semibold text-muted">{label}</p>
+            <p className="display mt-1 text-4xl text-royal">{n}</p>
           </li>
         ))}
       </ul>

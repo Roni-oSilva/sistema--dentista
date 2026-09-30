@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { parseBookingParams, readPatientCookie, stepUrl } from "@/lib/booking-flow";
+import { Stepper } from "@/components/brand";
 import { ActionForm, SubmitButton } from "@/components/ActionForm";
 import type { SearchParams } from "@/components/ui";
 import { AppError } from "@/lib/errors";
@@ -25,8 +26,9 @@ export default async function ResumoPage({ searchParams }: { searchParams: Searc
     throw e;
   }
   return (
-    <div>
-      <h1 className="h1">6. Resumo</h1>
+    <div className="mx-auto max-w-xl px-4 py-8">
+      <Stepper step={6} />
+      <h1 className="h1">Confirme seu agendamento</h1>
       <dl className="card mb-4 space-y-1 text-sm">
         <div><dt className="inline font-semibold">Paciente: </dt><dd className="inline">{patient.nome}</dd></div>
         <div><dt className="inline font-semibold">WhatsApp: </dt><dd className="inline">{formatPhone(patient.telefone)}</dd></div>
@@ -43,7 +45,7 @@ export default async function ResumoPage({ searchParams }: { searchParams: Searc
         <SubmitButton>Confirmar agendamento</SubmitButton>
       </ActionForm>
       <p className="mt-4 text-sm">
-        <Link href={stepUrl("dados", params)} className="underline">
+        <Link href={stepUrl("dados", params)} className="font-semibold text-royal underline">
           Corrigir dados
         </Link>
       </p>

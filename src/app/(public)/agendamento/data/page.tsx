@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { parseBookingParams, stepUrl } from "@/lib/booking-flow";
+import { Stepper } from "@/components/brand";
 import { Flash, type SearchParams } from "@/components/ui";
 import { AppError } from "@/lib/errors";
 import { getSettings } from "@/services/settings";
@@ -30,24 +31,25 @@ export default async function DataPage({ searchParams }: { searchParams: SearchP
     aplicarJanela: true,
   });
   return (
-    <div>
-      <h1 className="h1">3. Escolha a data</h1>
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <Stepper step={3} />
+      <h1 className="h1">Escolha o dia</h1>
       <Flash sp={sp} />
-      <p className="mb-3 text-sm">
-        {target.procedure.nome} — {target.professional.nome}
+      <p className="mb-4 text-sm text-muted">
+        <b className="text-ink">{target.procedure.nome}</b> · {target.professional.nome}
       </p>
       {dates.length === 0 && <p className="alert-info">Não há datas com horários livres nos próximos dias.</p>}
       <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {dates.map((d) => (
           <li key={d}>
-            <Link href={stepUrl("horario", { ...params, data: d, horario: undefined })} className="btn btn-secondary w-full">
+            <Link href={stepUrl("horario", { ...params, data: d, horario: undefined })} className="slot">
               {WEEKDAYS_PT[weekdayOf(d)].slice(0, 3)} {formatBR(d)}
             </Link>
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm">
-        <Link href={stepUrl("profissional", { procedimento: params.procedimento })} className="underline">
+      <p className="mt-5 text-sm">
+        <Link href={stepUrl("profissional", { procedimento: params.procedimento })} className="font-semibold text-royal underline">
           Voltar
         </Link>
       </p>

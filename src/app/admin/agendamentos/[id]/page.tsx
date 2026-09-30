@@ -60,12 +60,12 @@ export default async function AgendamentoDetalhe({ params, searchParams }: { par
       <h1 className="h1">Agendamento</h1>
       <Flash sp={sp} />
       <div className="card text-sm">
-        <p><b>Paciente:</b> <Link className="underline" href={`/admin/pacientes/${a.paciente_id}`}>{a.paciente?.nome}</Link> — {a.paciente && formatPhone(a.paciente.telefone)}{" "}
+        <p><b>Paciente:</b> <Link className="font-semibold text-royal underline" href={`/admin/pacientes/${a.paciente_id}`}>{a.paciente?.nome}</Link> — {a.paciente && formatPhone(a.paciente.telefone)}{" "}
           {waLink && <a className="btn btn-sm" href={waLink} target="_blank" rel="noopener noreferrer">Enviar confirmação no WhatsApp</a>}</p>
         <p><b>Procedimento:</b> {a.procedimento?.nome} ({a.procedimento?.duracao_minutos} min)</p>
         <p><b>Profissional:</b> {a.profissional?.nome}</p>
         <p><b>Data:</b> {formatBR(a.data)} <b>Horário:</b> {normalizeTime(a.hora_inicio)}–{normalizeTime(a.hora_fim)}</p>
-        <p><b>Status:</b> <StatusBadge status={a.status} /> <span className="text-gray-600">(origem: {a.origem})</span></p>
+        <p><b>Status:</b> <StatusBadge status={a.status} /> <span className="text-muted">(origem: {a.origem})</span></p>
       </div>
 
       <section className="card">

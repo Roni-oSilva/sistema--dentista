@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { parseBookingParams, stepUrl } from "@/lib/booking-flow";
+import { Arrow, Stepper } from "@/components/brand";
 import type { SearchParams } from "@/components/ui";
 
 export const metadata = { title: "Escolha o profissional" };
@@ -19,21 +20,23 @@ export default async function ProfissionalPage({ searchParams }: { searchParams:
     .eq("professional_procedures.procedure_id", proc.id)
     .order("nome");
   return (
-    <div>
-      <h1 className="h1">2. Escolha o profissional</h1>
-      <p className="mb-3 text-sm">Procedimento: {proc.nome}</p>
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <Stepper step={2} />
+      <h1 className="h1">Com qual profissional?</h1>
+      <p className="mb-4 text-sm text-muted">Procedimento: <b className="text-ink">{proc.nome}</b></p>
       {(pros ?? []).length === 0 && <p className="alert-info">Nenhum profissional disponível para este procedimento.</p>}
       <ul className="space-y-2">
         {(pros ?? []).map((p) => (
-          <li key={p.id} className="card">
-            <Link href={stepUrl("data", { procedimento: proc.id, profissional: p.id })} className="font-semibold underline">
-              {p.nome}
+          <li key={p.id}>
+            <Link href={stepUrl("data", { procedimento: proc.id, profissional: p.id })} className="opt">
+              <span className="opt-title">{p.nome}</span>
+              <Arrow />
             </Link>
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm">
-        <Link href="/agendamento/procedimento" className="underline">
+      <p className="mt-5 text-sm">
+        <Link href="/agendamento/procedimento" className="font-semibold text-royal underline">
           Voltar
         </Link>
       </p>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { parseBookingParams, stepUrl } from "@/lib/booking-flow";
+import { Stepper } from "@/components/brand";
 import { ActionForm, Field, SubmitButton } from "@/components/ActionForm";
 import type { SearchParams } from "@/components/ui";
 import { AppError } from "@/lib/errors";
@@ -24,10 +25,11 @@ export default async function DadosPage({ searchParams }: { searchParams: Search
     throw e;
   }
   return (
-    <div>
-      <h1 className="h1">5. Seus dados</h1>
-      <p className="mb-3 text-sm">
-        {target.procedure.nome} — {target.professional.nome} — {formatBR(params.data)} às {params.horario}
+    <div className="mx-auto max-w-xl px-4 py-8">
+      <Stepper step={5} />
+      <h1 className="h1">Seus dados</h1>
+      <p className="mb-4 text-sm text-muted">
+        <b className="text-ink">{target.procedure.nome}</b> · {target.professional.nome} · {formatBR(params.data)} às {params.horario}
       </p>
       <div className="card">
         <ActionForm action={submitPatientData}>
@@ -58,7 +60,7 @@ export default async function DadosPage({ searchParams }: { searchParams: Search
         </ActionForm>
       </div>
       <p className="mt-4 text-sm">
-        <Link href={stepUrl("horario", { ...params, horario: undefined })} className="underline">
+        <Link href={stepUrl("horario", { ...params, horario: undefined })} className="font-semibold text-royal underline">
           Voltar
         </Link>
       </p>

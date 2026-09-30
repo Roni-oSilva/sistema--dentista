@@ -22,7 +22,7 @@ export default async function ProfissionaisPage({ searchParams }: { searchParams
           <tbody>
             {(data ?? []).map((p) => (
               <tr key={p.id}><td>{p.nome}</td><td>{p.registro_profissional}</td><td>{p.ativo ? "Sim" : "Não"}</td>
-                <td><Link className="underline" href={`/admin/profissionais/${p.id}`}>Editar / disponibilidade</Link></td></tr>
+                <td><Link className="font-semibold text-royal underline" href={`/admin/profissionais/${p.id}`}>Editar / disponibilidade</Link></td></tr>
             ))}
           </tbody>
         </table>
